@@ -11,6 +11,7 @@
 
   gtag('config', 'G-0GN457MHNJ');
 </script>
+
 <link rel="icon" type="image/png" href="https://github.com/msafeindustries/MSAFE/blob/main/images/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="https://github.com/msafeindustries/MSAFE/blob/main/images/favicon.svg" />
 <link rel="shortcut icon" href="https://github.com/msafeindustries/MSAFE/blob/main/images/favicon.ico" />
@@ -62,6 +63,22 @@
 img {
   max-width: 100%;
   height: auto;
+}
+/* Animation Base States */
+.reveal-left { transform: translateX(-50px); transition: all 1s ease-out; }
+.reveal-right { transform: translateX(50px); transition: all 1s ease-out; }
+.reveal-card { transform: translateY(30px); transition: all 0.6s ease-out; }
+
+/* Active States (Triggered by JS) */
+.active {
+    opacity: 1 !important;
+    transform: translate(0) !important;
+}
+
+/* Float & Spin (Your existing animations) */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
 }
 /* 1. The Container: Allow items to wrap to a new line */
 .image-container {
@@ -240,6 +257,161 @@ img {
 }
 
     </style>
+    <style>
+    /* Status Colors */
+    .status-open { color: #22c55e; }
+    .status-closed { color: #dc2626; }
+    
+    .bg-open { background-color: #22c55e; }
+    .bg-closed { background-color: #dc2626; }
+    
+    /* Animation Helpers */
+    .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 1s ease-out; }
+    .reveal-right { opacity: 0; transform: translateX(50px); transition: all 1s ease-out; }
+    .reveal-left.active, .reveal-right.active { opacity: 1; transform: translateX(0); }
+</style>
+
+<script>
+function updateStatus() {
+    const now = new Date();
+    // Adjusting for IST (if your server/user is elsewhere, you can force UTC+5.5)
+    const hours = now.getHours();
+    const day = now.getDay(); // 0 = Sunday, 1-6 = Mon-Sat
+    
+    const statusText = document.getElementById('status-text');
+    const statusDot = document.getElementById('status-dot');
+    const ping = document.getElementById('ping-effect');
+    const glow = document.getElementById('glow-bg');
+    const timeDisplay = document.getElementById('current-time');
+    const cardBorder = document.getElementById('status-card');
+
+    // Display Current Time
+    timeDisplay.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    // OPEN: Mon-Sat (1-6) AND 10:00 to 17:59 (18:00)
+    const isOpen = (day >= 1 && day <= 6) && (hours >= 10 && hours < 18);
+
+    if (isOpen) {
+        statusText.innerText = "Shop is Open";
+        statusText.className = "text-3xl font-black italic tracking-tighter uppercase block text-green-500";
+        statusDot.className = "relative inline-flex rounded-full h-5 w-5 bg-green-500";
+        ping.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75";
+        glow.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
+        cardBorder.style.background = "linear-gradient(to right, #22c55e, transparent)";
+    } else {
+        statusText.innerText = "Shop is Closed";
+        statusText.className = "text-3xl font-black italic tracking-tighter uppercase block text-red-600";
+        statusDot.className = "relative inline-flex rounded-full h-5 w-5 bg-red-600";
+        ping.className = "hidden"; // No ping when closed
+        glow.style.backgroundColor = "rgba(220, 38, 38, 0.1)";
+        cardBorder.style.background = "linear-gradient(to right, #dc2626, transparent)";
+    }
+}
+
+// Scroll Animation Trigger
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.reveal-left, .reveal-right').forEach(el => el.classList.add('active'));
+        }
+    });
+}, { threshold: 0.1 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateStatus();
+    setInterval(updateStatus, 60000); // Update every minute
+    observer.observe(document.querySelector('#hours'));
+});
+</script>
+    <style>
+    /* 1. Base states: Hidden and moved slightly */
+    .reveal-left, .reveal-right, .reveal-card {
+        opacity: 0;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: transform, opacity;
+    }
+    
+    .reveal-left { transform: translateX(-30px); }
+    .reveal-right { transform: translateX(30px); }
+    .reveal-card { transform: translateY(30px); }
+
+    /* 2. The 'active' class that makes them visible */
+    .reveal-left.active, 
+    .reveal-right.active, 
+    .reveal-card.active {
+        opacity: 1 !important;
+        transform: translate(0, 0) !important;
+    }
+
+    /* 3. Your existing animations */
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Intersection Observer Logic
+    const observerOptions = {
+        threshold: 0.1, // Trigger when 10% is visible
+        rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the viewport
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate Headings/Images
+                const mainElements = entry.target.querySelectorAll('.reveal-left, .reveal-right');
+                mainElements.forEach(el => el.classList.add('active'));
+
+                // Animate Cards with Delay
+                const cards = entry.target.querySelectorAll('.reveal-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 100); 
+                });
+                
+                // Once animated, stop observing this section
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe both sections
+    const sections = document.querySelectorAll('#contact, #hours');
+    sections.forEach(sec => {
+        if(sec) observer.observe(sec);
+    });
+});
+</script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const observerOptions = { threshold: 0.2 };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate main containers
+                entry.target.querySelectorAll('.reveal-left, .reveal-right').forEach(el => {
+                    el.classList.add('active');
+                });
+
+                // Animate cards with a staggered delay
+                entry.target.querySelectorAll('.reveal-card').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('active');
+                    }, index * 150); // 150ms delay between each card
+                });
+            }
+        });
+    }, observerOptions);
+
+    observer.observe(document.querySelector('#contact'));
+});
+</script>
 </head>
 <body class="selection:bg-red-600 selection:text-white">
 
@@ -446,81 +618,164 @@ img {
             </div>
         </div>
     </section>
-    <!-- Contact Section -->
-    <section id="contact" class="py-32 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="contact-card rounded-[4rem] p-12 md:p-20 relative overflow-hidden shadow-2xl">
-                <div class="grid md:grid-cols-2 gap-20">
-                    <div class="animate-on-scroll">
-                        <h2 class="text-6xl font-black mb-8 italic">Let's Talk About <br><span class="text-red-600">AQUARUN</span></h2>
-                        
-                        <div class="space-y-10">
-                            <div class="flex gap-6 group">
-                                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-red-600 transition duration-500">
-                                    <i class="fa-solid fa-phone"></i>
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Phone Number</p>
-                                    <p class="text-2xl font-black">+91 90376 27335</p>
-                                </div>
-                            </div>
+     <!-- problem we solve -->
+<section id="problem" class="py-32 bg-[#0a0a0a]">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-20 animate-on-scroll">
+            <h2 class="text-5xl font-black italic">SMART VS. <span class="text-red-600">TRADITIONAL</span></h2>
+        </div>
 
-                            <div class="flex gap-6 group">
-                                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-red-600 transition duration-500">
-                                                  <a href="https://wa.me/919037627335" class="hover:text-red-600 transition"><i class="fab fa-whatsapp text-xl"></i></a>
+        <div class="grid md:grid-cols-2 gap-0 rounded-[3rem] overflow-hidden border border-white/5 shadow-2xl">
+            <div class="p-12 bg-neutral-900/50 relative group">
+                <div class="absolute top-8 right-8 text-red-600/20 text-6xl font-black italic">OLD</div>
+                <h4 class="text-2xl font-black mb-10 uppercase tracking-tighter">Manual Management</h4>
+                <ul class="space-y-6">
+                    <li class="flex items-center gap-4 text-gray-500 line-through decoration-red-600/50"><i class="fas fa-times-circle text-red-600"></i> Constant tank monitoring</li>
+                    <li class="flex items-center gap-4 text-gray-500 line-through decoration-red-600/50"><i class="fas fa-times-circle text-red-600"></i> Risk of pump dry-running</li>
+                    <li class="flex items-center gap-4 text-gray-500 line-through decoration-red-600/50"><i class="fas fa-times-circle text-red-600"></i> Wasted water from overflows</li>
+                </ul>
+            </div>
 
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">WhatsApp</p>
-                                    <p class="text-2xl font-black">+91 90376 27335</p>
-                                </div>
-                            </div>
-
-<div class="flex gap-6 group">
-                                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-red-600 transition duration-500">
-                                                  <a href="https://www.instagram.com/msafeindustries/" class="hover:text-red-600 transition"><i class="fab fa-instagram text-xl"></i></a>
-
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Instagram</p>
-                                    <p class="text-2xl font-black">@msafeindustries</p>
-                                </div>
-                            </div>
-<div class="flex gap-6 group">
-<div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-red-600 transition duration-500">
-                                                  <a href="https://www.facebook.com/msafeindustries/" class="hover:text-red-600 transition"><i class="fab fa-facebook text-xl"></i></a>
-
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Facebook</p>
-                                    <p class="text-2xl font-black">@msafeindustries</p>
-                                </div>
-                            </div>
-
-                            </div>
-<br>
-<br>
-                            
-<div class="flex gap-6 group">
-<div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center group-hover:bg-red-600 transition duration-500">
-                                                  <a href="https://www.facebook.com/msafeindustries/" class="hover:text-red-600 transition"><i class="fas fa-map-marker-alt"></i></a>
-
-                                </div>
-                                <div>
-                                    <p class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Location</p>
-                                    <p class="text-2xl font-black">Kerala, India</p>
-                                </div>
-                            </div>
-
-                            </div>
-
-                            
-<div class="animate-on-scroll"><img src="images\MSAFENOBG.png"></div>
-                    
-                </div>
+            <div class="p-12 bg-red-600 relative group">
+                <div class="absolute top-8 right-8 text-white/20 text-6xl font-black italic">NEW</div>
+                <h4 class="text-2xl font-black mb-10 uppercase tracking-tighter text-white">AQUARUN Solution</h4>
+                <ul class="space-y-6">
+                    <li class="flex items-center gap-4 text-white font-bold"><i class="fas fa-check-circle text-white shadow-lg"></i> Set it and forget it</li>
+                    <li class="flex items-center gap-4 text-white font-bold"><i class="fas fa-check-circle text-white shadow-lg"></i> AI-driven dry-run safety</li>
+                    <li class="flex items-center gap-4 text-white font-bold"><i class="fas fa-check-circle text-white shadow-lg"></i> 100% Zero-Overflow guarantee</li>
+                </ul>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-[#050505] text-white overflow-hidden relative">
+    <div class="absolute -top-24 -right-24 w-96 h-96 bg-red-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-red-900/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="grid lg:grid-cols-12 gap-16 items-center">
+            
+            <div class="lg:col-span-7 order-2 lg:order-1 reveal-left opacity-0">
+                <div class="mb-12">
+                    <h2 class="text-sm font-black uppercase tracking-[0.4em] text-red-600 mb-4">Connection Hub</h2>
+                    <h3 class="text-5xl md:text-7xl font-black italic leading-none">LET'S FUEL <br> THE <span class="text-red-600 underline decoration-red-600/30 underline-offset-8">RUN</span></h3>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                    <a href="tel:+919037627335" class="reveal-card opacity-0 group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:bg-red-600 transition-all duration-500 hover:-translate-y-2">
+                        <div class="flex flex-col h-full">
+                            <i class="fa-solid fa-phone text-3xl mb-12 group-hover:rotate-12 transition-transform"></i>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-white/80">Call Center</p>
+                            <p class="text-xl font-black">+91 90376 27335</p>
+                        </div>
+                    </a>
+
+                    <a href="https://wa.me/919037627335" class="reveal-card opacity-0 group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:bg-[#25D366] transition-all duration-500 hover:-translate-y-2">
+                        <div class="flex flex-col h-full">
+                            <i class="fab fa-whatsapp text-3xl mb-12 group-hover:scale-110 transition-transform"></i>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-white/80">Direct Message</p>
+                            <p class="text-xl font-black">WhatsApp</p>
+                        </div>
+                    </a>
+
+                    <a href="https://www.instagram.com/msafeindustries/" class="reveal-card opacity-0 group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] transition-all duration-500 hover:-translate-y-2">
+                        <div class="flex flex-col h-full">
+                            <i class="fab fa-instagram text-3xl mb-12 group-hover:-rotate-12 transition-transform"></i>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 group-hover:text-white/80">Follow Us</p>
+                            <p class="text-xl font-black">@msafeindustries</p>
+                        </div>
+                    </a>
+
+                    <div class="reveal-card opacity-0 group p-8 rounded-[2.5rem] bg-white/5 border border-white/10 hover:border-blue-500 transition-all duration-500 hover:-translate-y-2">
+                        <div class="flex flex-col h-full">
+                            <i class="fas fa-map-marker-alt text-3xl mb-12 text-blue-500 group-hover:animate-bounce"></i>
+                            <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Headquarters</p>
+                            <p class="text-xl font-black">Kerala, India</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end reveal-right opacity-0">
+                <div class="relative group">
+                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-red-600/20 animate-[spin_20s_linear_infinite] group-hover:border-red-600/50 transition-colors"></div>
+                    <div class="relative p-4 animate-[bounce_4s_ease-in-out_infinite]">
+                        <img src="images/MSAFENOBG.png" alt="Msafe Logo" class="max-w-[280px] md:max-w-[400px] drop-shadow-[0_0_50px_rgba(220,38,38,0.3)] filter brightness-110">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+ <!-- TIMINGS -->
+
+<section id="hours" class="py-24 bg-[#050505] text-white relative overflow-hidden border-t border-white/5">
+    
+    <div id="glow-bg" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[150px] opacity-20 transition-colors duration-1000 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            
+            <div class="reveal-left">
+                <h2 class="text-sm font-black uppercase tracking-[0.4em] text-red-600 mb-4">Availability</h2>
+                <h3 class="text-5xl md:text-7xl font-black italic mb-8 uppercase">Office <br>Status</h3>
+                
+                <div id="status-card" class="relative inline-block p-[2px] rounded-[2.5rem] transition-all duration-1000">
+                    <div class="bg-neutral-900 rounded-[2.5rem] px-10 py-6 flex items-center gap-6 border border-white/10">
+                        <div class="relative flex h-5 w-5">
+                            <span id="ping-effect" class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
+                            <span id="status-dot" class="relative inline-flex rounded-full h-5 w-5"></span>
+                        </div>
+                        
+                        <div>
+                            <span id="status-text" class="text-3xl font-black italic tracking-tighter uppercase block">Loading...</span>
+                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Live Shop Checker</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mt-8 text-gray-400 font-medium">
+                    Our current time is <span id="current-time" class="text-white font-bold">00:00 AM</span>. 
+                    <br><span class="text-sm opacity-50">Based on IST (India Standard Time)</span>
+                </p>
+            </div>
+
+            <div class="reveal-right">
+                <div class="grid gap-4">
+                    <div class="group bg-white/5 border border-white/10 p-8 rounded-[2rem] hover:bg-white/10 transition-all">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-red-600 font-black text-xs uppercase tracking-widest mb-1">Weekdays</p>
+                                <h4 class="text-2xl font-bold">Mon — Sat</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-black italic">10:00 AM</p>
+                                <p class="text-gray-500 font-bold uppercase text-[10px]">To 06:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group bg-white/5 border border-white/10 p-8 rounded-[2rem] opacity-60 hover:opacity-100 transition-all">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-gray-500 font-black text-xs uppercase tracking-widest mb-1">Weekend</p>
+                                <h4 class="text-2xl font-bold">Sunday</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-black italic text-red-600 uppercase">Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer class="py-20 border-t border-white/5">
@@ -548,7 +803,7 @@ img {
         });
 
         // Intersection Observer for Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
+        const scrollObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
@@ -556,7 +811,7 @@ img {
             });
         }, { threshold: 0.15 });
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        document.querySelectorAll('.animate-on-scroll').forEach(el => scrollObserver.observe(el));
 
         // Parallax Effect for Product Image
         window.addEventListener('scroll', () => {
