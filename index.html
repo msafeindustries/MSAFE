@@ -269,6 +269,43 @@ img {
     .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 1s ease-out; }
     .reveal-right { opacity: 0; transform: translateX(50px); transition: all 1s ease-out; }
     .reveal-left.active, .reveal-right.active { opacity: 1; transform: translateX(0); }
+    /* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #dc2626; /* red-600 */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ef4444; /* red-500 */
+}
+/* Preloader Specific Styles */
+#preloader.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#loader-bar {
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.8);
+    transition: width 2s linear; /* Matches the 2s requirement */
+}
+
+@keyframes aura-pulse {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(1.1); }
+}
+
+.animate-aura {
+    animation: aura-pulse 4s infinite ease-in-out;
+    background: radial-gradient(circle, rgba(220,38,38,0.15) 0%, rgba(0,0,0,0) 70%);
+}
 </style>
 
 <script>
@@ -414,7 +451,18 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </head>
 <body class="selection:bg-red-600 selection:text-white">
-
+    <div id="preloader" class="fixed inset-0 z-[100] bg-[#000] flex flex-col items-center justify-center transition-opacity duration-1000">
+    <div class="absolute inset-0 bg-radial-gradient from-red-900/10 to-transparent opacity-30 animate-aura"></div>
+    
+    <div class="relative z-10 flex flex-col items-center">
+        <h1 class="text-4xl font-black italic tracking-[0.5em] text-red-600 mb-6">MSAFE</h1>
+        
+        <div class="w-64 h-[2px] bg-white/10 rounded-full overflow-hidden">
+            <div id="loader-bar" class="h-full bg-red-600 w-0"></div>
+        </div>
+    </div>
+</div>
+<div class="custom-cursor"></div>
     <!-- Navigation -->
     <nav class="glass-nav fixed w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -579,8 +627,17 @@ document.addEventListener("DOMContentLoaded", function() {
  </div>
  <div class="image-container">
   <img src="images\postt.jpg" alt="Image 1">
-  <img src="images\post.png" alt="Image 2">
+  <img src="images\post.jpg" alt="Image 2">
+  <img src="images\1.png" alt="Image 3">
+  <img src="images\2.png" alt="Image 3">
+  <img src="images\3.png" alt="Image 3">
+  <img src="images\6.jpg" alt="Image 3">
+  <img src="images\9.png" alt="Image 3">
+  <img src="images\11.jpg" alt="Image 3">
+  <img src="images\14.jpg" alt="Image 3">
+  <img src="images\e.jpg" alt="Image 3">
   <img src="images\ORANGE.png" alt="Image 3">
+  
 </div>
 
     </center>
@@ -745,7 +802,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             <div class="reveal-left">
                 <h2 class="text-sm font-black uppercase tracking-[0.4em] text-red-600 mb-4">Availability</h2>
-                <h3 class="text-5xl md:text-7xl font-black italic mb-8 uppercase">LIVE Office <br>Status</h3>
+                <h3 class="text-5xl md:text-7xl font-black italic mb-8 uppercase">Office <br>Status</h3>
                 
                 <div id="status-card" class="relative inline-block p-[2px] rounded-[2.5rem] transition-all duration-1000">
                     <div class="bg-neutral-900 rounded-[2.5rem] px-10 py-6 flex items-center gap-6 border border-white/10">
@@ -756,7 +813,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         
                         <div>
                             <span id="status-text" class="text-3xl font-black italic tracking-tighter uppercase block">Loading...</span>
-                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]"></p>
+                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Live Shop Checker</p>
                         </div>
                     </div>
                 </div>
@@ -856,6 +913,38 @@ document.addEventListener("DOMContentLoaded", function() {
                 nav.classList.remove('py-2', 'shadow-2xl');
             }
         });
+        window.addEventListener('DOMContentLoaded', () => {
+    const preloader = document.getElementById('preloader');
+    const loaderBar = document.getElementById('loader-bar');
+
+    // Start filling the bar immediately
+    setTimeout(() => {
+        loaderBar.style.width = '100%';
+    }, 50);
+
+    // Hide the screen after exactly 2 seconds
+    setTimeout(() => {
+        preloader.classList.add('fade-out');
+        // Re-enable scrolling once loaded
+        document.body.style.overflow = 'auto';
+    }, 2000);
+});
+
+// Lock scroll while loading
+document.body.style.overflow = 'hidden';
+// Force scroll to top on refresh
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+window.addEventListener('load', () => {
+    window.scrollTo(0, 0);
+});
     </script>
 </body>
+
 </html>
