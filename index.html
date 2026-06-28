@@ -869,6 +869,48 @@ document.addEventListener("DOMContentLoaded", function() {
                 <a href="tel:+919037627335" class="hover:text-red-600 transition"><i class="fa-solid fa-phone"></i></a>
 
             </div>
+            <div class="dev-credit">
+    <a href="https://quadmedia-tvm.vercel.app/" target="_blank">
+        <span class="pulse"></span>
+        Meet the Developers • <strong>QUADMEDIA.TVM</strong>
+    </a>
+</div>
+
+<style>
+.dev-credit{
+    text-align:center;
+    padding:24px 0;
+}
+
+.dev-credit a{
+    color:#888;
+    text-decoration:none;
+    font-size:13px;
+    letter-spacing:.08em;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:.3s;
+}
+
+.dev-credit a:hover{
+    color:#fff;
+}
+
+.pulse{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#00ff88;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(0,255,136,.6);}
+    70%{box-shadow:0 0 0 10px rgba(0,255,136,0);}
+    100%{box-shadow:0 0 0 0 rgba(0,255,136,0);}
+}
+</style>
             <p class="text-[10px] text-gray-700 font-bold uppercase tracking-[0.4em]">&copy; 2026 MSAFE INDUSTRIES | AQUARUN </p>
         </div>
     </footer>
