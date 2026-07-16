@@ -51,7 +51,7 @@
   gtag('config', 'G-0GN457MHNJ');
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,440;0,9..144,520;0,9..144,600;1,9..144,440&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
 <!-- ============================= STRUCTURED DATA ============================= -->
@@ -173,7 +173,7 @@
   --red-glow: rgba(224,24,31,0.35);
 
   --serif: 'Fraunces', Georgia, serif;
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --ease: cubic-bezier(.16,.84,.32,1);
   --ease-soft: cubic-bezier(.4,0,.2,1);
@@ -234,9 +234,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
    ============================================================ */
 .eyebrow{
   font-family:var(--sans);
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:0.32em;
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:0.28em;
   text-transform:uppercase;
   color:var(--red-bright);
   display:inline-flex;
@@ -252,15 +252,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 h1,h2,h3,h4{
   font-family:var(--serif);
-  font-weight:600;
-  letter-spacing:-0.01em;
+  font-weight:560;
+  letter-spacing:-0.015em;
   color:var(--ink);
 }
 
-h1{ font-size:clamp(2.8rem, 7vw, 6.4rem); line-height:0.98; font-weight:500; }
-h2{ font-size:clamp(2.1rem, 4.4vw, 3.6rem); line-height:1.05; }
-h3{ font-size:clamp(1.35rem, 2.4vw, 1.9rem); line-height:1.2; }
-h4{ font-size:1.15rem; line-height:1.3; }
+h1{ font-size:clamp(2.8rem, 7vw, 6.4rem); line-height:0.96; font-weight:460; letter-spacing:-0.02em; }
+h2{ font-size:clamp(2.1rem, 4.4vw, 3.6rem); line-height:1.04; font-weight:460; letter-spacing:-0.02em; }
+h3{ font-size:clamp(1.35rem, 2.4vw, 1.9rem); line-height:1.2; font-weight:560; }
+h4{ font-size:1.15rem; line-height:1.3; font-weight:560; }
 
 .italic-serif{ font-style:italic; font-weight:500; }
 
@@ -705,21 +705,7 @@ section{ position:relative; }
 /* ============================================================
    TESTIMONIALS
    ============================================================ */
-.testi-track-wrap{ overflow:hidden; }
-.testi-track{ display:flex; gap:20px; }
-.testi-card{
-  flex:0 0 min(380px,86vw); background:var(--panel); border:1px solid var(--line-soft); border-radius:26px;
-  padding:32px; display:flex; flex-direction:column; gap:20px;
-}
-.testi-stars{ color:var(--red-bright); font-size:0.85rem; letter-spacing:2px; }
-.testi-card p{ color:var(--ink); font-size:1rem; line-height:1.6; }
-.testi-person{ display:flex; align-items:center; gap:12px; margin-top:auto; }
-.testi-avatar{
-  width:42px; height:42px; border-radius:50%; background:var(--red-deep);
-  display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-weight:600; color:#fff;
-}
-.testi-person b{ display:block; font-size:0.9rem; }
-.testi-person span{ font-size:0.78rem; color:var(--ink-faint); }
+
 
 /* ============================================================
    FAQ ACCORDION
@@ -893,24 +879,429 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
 .mx-auto{ margin-inline:auto; }
 .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
 </style>
+<style>
+/* ============================================================
+   AQUARUN — EDITORIAL SYSTEM
+   Black / dark-gray / red / white only.
+   Grid-driven, asymmetric, tight rhythm — not centered-stack.
+   ============================================================ */
+
+:root{
+  --black:#050505;
+  --near-black:#0b0b0b;
+  --panel:#111111;
+  --line:rgba(255,255,255,0.09);
+  --line-soft:rgba(255,255,255,0.055);
+  --ink:#f2f2f0;
+  --ink-dim:#9a9a97;
+  --ink-faint:#5c5c5a;
+  --red:#e0181f;
+  --red-bright:#ff262d;
+  --red-deep:#7a0d10;
+
+  --serif:'Fraunces', Georgia, serif;
+  --sans:'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --ease:cubic-bezier(.19,1,.22,1);
+  --col:78px;      /* 12-col grid unit reference, informs spacing scale */
+  --edge:clamp(20px,4vw,56px);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion:reduce){ *{ animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
+
+body{
+  font-family:var(--sans);
+  background:var(--near-black);
+  color:var(--ink);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  font-size:16px;
+}
+img{ max-width:100%; height:auto; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+ul{ list-style:none; }
+a:focus-visible,button:focus-visible{ outline:2px solid var(--red-bright); outline-offset:3px; }
+
+.skip-link{ position:fixed; top:-100px; left:14px; z-index:999; background:var(--red); color:#fff; padding:10px 18px; font-weight:700; font-size:13px; transition:top .3s; }
+.skip-link:focus{ top:14px; }
+
+::-webkit-scrollbar{ width:8px; }
+::-webkit-scrollbar-track{ background:var(--black); }
+::-webkit-scrollbar-thumb{ background:#292929; }
+::-webkit-scrollbar-thumb:hover{ background:var(--red); }
+::selection{ background:var(--red); color:#fff; }
+
+/* ============================================================
+   GRID — the actual editorial backbone. 12 columns, tight gutter.
+   ============================================================ */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:16px;
+  max-width:1400px;
+  margin-inline:auto;
+  padding-inline:var(--edge);
+}
+.edge{ max-width:1400px; margin-inline:auto; padding-inline:var(--edge); }
+
+/* ============================================================
+   TYPE
+   ============================================================ */
+.kicker{
+  font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--ink-faint);
+  display:flex; align-items:center; gap:9px;
+}
+.kicker::before{ content:''; width:5px; height:5px; background:var(--red-bright); flex:none; }
+.kicker b{ color:var(--red-bright); font-weight:700; }
+
+h1,h2,h3,h4{ font-family:var(--serif); color:var(--ink); font-weight:440; letter-spacing:-0.02em; }
+h1{ font-size:clamp(2.6rem,6.2vw,5.6rem); line-height:0.94; }
+h2{ font-size:clamp(1.9rem,3.6vw,3rem); line-height:1.02; }
+h3{ font-size:clamp(1.25rem,2vw,1.6rem); line-height:1.15; font-weight:520; }
+h4{ font-size:1.02rem; font-weight:600; font-family:var(--sans); letter-spacing:-0.01em; }
+em{ font-style:italic; color:var(--red-bright); }
+
+p{ color:var(--ink-dim); font-weight:400; font-size:0.98rem; line-height:1.6; }
+.lede{ font-size:clamp(1rem,1.3vw,1.15rem); line-height:1.55; color:var(--ink-dim); max-width:46ch; }
+
+/* ============================================================
+   BUTTONS — flat, no glow-soup
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; gap:9px; padding:14px 26px;
+  font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  transition:background .25s, color .25s, border-color .25s;
+  border-radius:2px;
+}
+.btn-fill{ background:var(--red); color:#fff; }
+.btn-fill:hover{ background:var(--red-bright); }
+.btn-line{ border:1px solid var(--line); color:var(--ink); }
+.btn-line:hover{ border-color:var(--ink); }
+
+/* ============================================================
+   NAV — thin, functional, no glass-blur cliché
+   ============================================================ */
+.site-nav{
+  position:fixed; top:0; left:0; right:0; z-index:80;
+  padding:18px var(--edge);
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid transparent;
+  transition:background .3s, border-color .3s, padding .3s;
+}
+.site-nav.scrolled{ background:rgba(5,5,5,0.94); border-bottom-color:var(--line-soft); padding-block:12px; }
+.nav-logo img{ height:26px; }
+.nav-links{ display:none; align-items:center; gap:30px; }
+.nav-links a{ font-size:12px; font-weight:600; letter-spacing:0.04em; color:var(--ink-dim); transition:color .2s; }
+.nav-links a:hover{ color:var(--ink); }
+@media (min-width:1024px){ .nav-links{ display:flex; } }
+.nav-cta{ display:none; }
+@media (min-width:1024px){ .nav-cta{ display:inline-flex; padding:10px 20px; } }
+
+.hamburger{ display:flex; flex-direction:column; gap:5px; width:22px; padding:8px; margin:-8px; z-index:90; }
+.hamburger span{ height:1.5px; width:100%; background:var(--ink); transition:transform .3s; }
+@media (min-width:1024px){ .hamburger{ display:none; } }
+.hamburger.open span:nth-child(1){ transform:translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2){ opacity:0; }
+.hamburger.open span:nth-child(3){ transform:translateY(-6.5px) rotate(-45deg); }
+
+.mobile-menu{
+  position:fixed; inset:0; z-index:70; background:var(--black);
+  padding:100px var(--edge) 40px; overflow-y:auto;
+  transform:translateY(-100%); transition:transform .45s var(--ease);
+}
+.mobile-menu.open{ transform:translateY(0); }
+.mobile-menu a{ display:block; font-family:var(--serif); font-size:2rem; padding:10px 0; border-bottom:1px solid var(--line-soft); }
+
+/* ============================================================
+   SECTION RHYTHM — tight, consistent, no random huge gaps
+   ============================================================ */
+section{ position:relative; }
+.s{ padding-block:56px; }
+.s-lg{ padding-block:80px; }
+.s-sm{ padding-block:36px; }
+.rule{ border-top:1px solid var(--line-soft); }
+
+/* Section head sits INSIDE the grid, offset — not centered */
+.s-head{ grid-column:1/13; display:grid; grid-template-columns:subgrid; margin-bottom:36px; align-items:end; }
+.s-head .kicker{ grid-column:1/4; }
+.s-head h2{ grid-column:1/9; margin-top:8px; }
+.s-head .s-note{ grid-column:9/13; text-align:right; align-self:end; }
+@media (max-width:760px){
+  .s-head{ display:block; }
+  .s-head h2{ margin-top:8px; }
+  .s-head .s-note{ text-align:left; margin-top:14px; }
+}
+.s-note p{ font-size:0.85rem; }
+
+.reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ============================================================
+   HERO — editorial masthead, not centered template
+   ============================================================ */
+.hero{ min-height:92svh; display:flex; flex-direction:column; justify-content:center; padding-top:90px; }
+.hero-top{ grid-column:1/13; display:grid; grid-template-columns:subgrid; align-items:start; margin-bottom:8px; }
+.hero-top .kicker{ grid-column:1/5; align-self:center; }
+.hero-top .hero-serial{ grid-column:9/13; text-align:right; font-size:11px; color:var(--ink-faint); letter-spacing:0.08em; align-self:center; }
+@media (max-width:760px){ .hero-top{ display:flex; justify-content:space-between; align-items:center; } }
+
+.hero-headline{ grid-column:1/13; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding-block:26px; margin-block:14px; }
+.hero-headline h1{ letter-spacing:-0.03em; }
+
+.hero-body-row{ grid-column:1/13; display:grid; grid-template-columns:subgrid; gap:16px; align-items:start; }
+.hero-lede-col{ grid-column:1/6; }
+.hero-stats-col{ grid-column:7/10; display:grid; gap:18px; padding-top:6px; }
+.hero-cta-col{ grid-column:10/13; display:flex; flex-direction:column; gap:10px; align-items:stretch; padding-top:6px; }
+.hero-cta-col .btn{ justify-content:center; }
+@media (max-width:900px){
+  .hero-lede-col,.hero-stats-col,.hero-cta-col{ grid-column:1/13; }
+  .hero-stats-col{ grid-template-columns:1fr 1fr; }
+  .hero-cta-col{ flex-direction:row; }
+}
+.hstat b{ display:block; font-family:var(--serif); font-size:1.5rem; font-weight:460; }
+.hstat span{ font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); }
+
+.hero-frame{ grid-column:1/13; margin-top:32px; position:relative; border:1px solid var(--line); background:var(--panel); overflow:hidden; }
+.hero-frame-inner{ display:grid; grid-template-columns:1fr; }
+@media (min-width:760px){ .hero-frame-inner{ grid-template-columns:1.3fr 1fr; } }
+.hero-frame-copy{ padding:34px; display:flex; flex-direction:column; justify-content:center; gap:14px; border-bottom:1px solid var(--line-soft); }
+@media (min-width:760px){ .hero-frame-copy{ border-bottom:none; border-right:1px solid var(--line-soft); } }
+.hero-frame-img{ position:relative; padding:28px; display:flex; align-items:center; justify-content:center; min-height:220px; }
+.hero-frame-img img{ max-width:220px; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.5)); }
+
+/* ============================================================
+   MARQUEE — thin strip, small caps, no huge padding
+   ============================================================ */
+.marquee{ border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); overflow:hidden; white-space:nowrap; padding-block:13px; }
+.marquee-track{ display:inline-flex; gap:44px; animation:mq 26s linear infinite; }
+.marquee-track span{ font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); display:inline-flex; align-items:center; gap:44px; }
+.marquee-track span i{ color:var(--red-deep); font-size:5px; }
+@keyframes mq{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ============================================================
+   FEATURES — numbered editorial rows, not icon-cards
+   ============================================================ */
+.feat-row{
+  grid-column:1/13; display:grid; grid-template-columns:subgrid;
+  padding-block:26px; border-top:1px solid var(--line-soft); align-items:center; gap:16px;
+}
+.feat-row:last-child{ border-bottom:1px solid var(--line-soft); }
+.feat-num{ grid-column:1/2; font-family:var(--serif); font-style:italic; color:var(--red-bright); font-size:1rem; }
+.feat-title{ grid-column:2/6; }
+.feat-title h3{ font-family:var(--sans); font-weight:700; font-size:1.05rem; letter-spacing:-0.01em; }
+.feat-desc{ grid-column:6/12; }
+.feat-desc p{ font-size:0.92rem; }
+@media (max-width:820px){
+  .feat-row{ display:block; padding-block:20px; }
+  .feat-num{ font-size:0.85rem; margin-bottom:8px; display:block; }
+  .feat-title h3{ margin-bottom:8px; }
+}
+
+/* ============================================================
+   STAT STRIP
+   ============================================================ */
+.stat-strip{ grid-column:1/13; display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line-soft); }
+.stat-cell{ padding:26px 22px; border-right:1px solid var(--line-soft); }
+.stat-cell:last-child{ border-right:none; }
+.stat-cell b{ display:block; font-family:var(--serif); font-size:2rem; font-weight:460; }
+.stat-cell span{ font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); }
+@media (max-width:640px){ .stat-strip{ grid-template-columns:1fr 1fr; } .stat-cell:nth-child(2){ border-right:none; } .stat-cell{ border-bottom:1px solid var(--line-soft); } }
+
+/* ============================================================
+   QUALITY / SPLIT — asymmetric, tight
+   ============================================================ */
+.split{ grid-column:1/13; display:grid; grid-template-columns:subgrid; gap:16px; align-items:center; }
+.split-media{ grid-column:1/6; border:1px solid var(--line); background:var(--panel); }
+.split-copy{ grid-column:7/13; }
+@media (max-width:820px){ .split-media,.split-copy{ grid-column:1/13; } }
+.metric-pair{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line-soft); border:1px solid var(--line-soft); margin-top:22px; }
+.metric-pair div{ background:var(--near-black); padding:18px 20px; }
+.metric-pair b{ display:block; font-family:var(--serif); font-size:1.5rem; color:var(--red-bright); font-weight:460; }
+.metric-pair span{ font-size:10px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); }
+
+/* ============================================================
+   SPEC TABLE — actual table rhythm
+   ============================================================ */
+.spec-table{ grid-column:1/13; border:1px solid var(--line-soft); }
+.spec-tr{ display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--line-soft); }
+.spec-tr:last-child{ border-bottom:none; }
+.spec-td{ padding:17px 24px; }
+.spec-td:first-child{ border-right:1px solid var(--line-soft); }
+.spec-k{ font-size:10.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); }
+.spec-v{ font-family:var(--serif); font-size:1.05rem; }
+@media (max-width:640px){ .spec-tr{ grid-template-columns:1fr; } .spec-td:first-child{ border-right:none; border-bottom:1px solid var(--line-soft); padding-bottom:8px; } }
+
+/* ============================================================
+   TABS / PROCESS
+   ============================================================ */
+.tab-nav{ grid-column:1/13; display:flex; gap:0; border-bottom:1px solid var(--line-soft); margin-bottom:0; }
+.tab-btn{ padding:12px 22px; font-size:11.5px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .2s, border-color .2s; }
+.tab-btn.active{ color:var(--ink); border-color:var(--red-bright); }
+.tab-panel{ display:none; grid-column:1/13; }
+.tab-panel.active{ display:grid; grid-template-columns:subgrid; }
+.p-step{ grid-column:span 3; padding:24px 20px 0 0; border-top:1px solid var(--line-soft); margin-top:24px; }
+@media (max-width:820px){ .p-step{ grid-column:1/13; } }
+.p-step .p-num{ font-family:var(--serif); font-style:italic; color:var(--red-bright); display:block; margin-bottom:10px; }
+.p-step p{ font-size:0.88rem; }
+
+/* ============================================================
+   APPLICATIONS — text list, not icon soup
+   ============================================================ */
+.app-list{ grid-column:1/13; display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line-soft); }
+.app-cell{ padding:20px; border-right:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); font-size:0.92rem; font-weight:600; display:flex; align-items:center; gap:10px; transition:background .2s; }
+.app-cell:hover{ background:rgba(224,24,31,0.06); }
+.app-cell:nth-child(4n){ border-right:none; }
+.app-cell i{ color:var(--ink-faint); font-size:0.85rem; }
+@media (max-width:820px){ .app-list{ grid-template-columns:repeat(2,1fr); } .app-cell:nth-child(2n){ border-right:none; } .app-cell:nth-child(4n){ border-right:1px solid var(--line-soft); } .app-cell:nth-child(2n):last-child{border-right:none;} }
+
+/* ============================================================
+   COMPARE
+   ============================================================ */
+.compare{ grid-column:1/13; display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line); }
+@media (max-width:760px){ .compare{ grid-template-columns:1fr; } }
+.compare-col{ padding:32px; }
+.compare-col.old{ background:var(--panel); border-right:1px solid var(--line); }
+.compare-col.new{ background:var(--red); }
+@media (max-width:760px){ .compare-col.old{ border-right:none; border-bottom:1px solid var(--line); } }
+.compare-list li{ display:flex; gap:10px; padding:9px 0; font-size:0.92rem; font-weight:500; }
+.compare-col.old .compare-list li{ color:var(--ink-faint); }
+.compare-col.old .compare-list i{ color:var(--red-deep); margin-top:3px; font-size:0.8rem; }
+.compare-col.new .compare-list li{ color:#fff; }
+.compare-col.new .compare-list i{ color:#fff; margin-top:3px; font-size:0.8rem; }
+
+/* ============================================================
+   GALLERY
+   ============================================================ */
+.gallery-grid{ grid-column:1/13; display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:var(--line-soft); }
+@media (max-width:640px){ .gallery-grid{ grid-template-columns:repeat(2,1fr); } }
+.g-item{ aspect-ratio:1; overflow:hidden; background:var(--panel); }
+.g-item img{ width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease); }
+.g-item:hover img{ transform:scale(1.06); }
+
+/* ============================================================
+   CTA BAND
+   ============================================================ */
+.cta-band{ grid-column:1/13; border:1px solid var(--line); padding:44px; display:grid; grid-template-columns:subgrid; align-items:center; gap:20px; }
+.cta-band-copy{ grid-column:1/8; }
+.cta-band-act{ grid-column:8/13; display:flex; gap:12px; justify-content:flex-end; }
+@media (max-width:820px){ .cta-band-copy,.cta-band-act{ grid-column:1/13; } .cta-band-act{ justify-content:flex-start; } }
+
+/* ============================================================
+   BUY
+   ============================================================ */
+.buy-grid{ grid-column:1/13; display:grid; grid-template-columns:1fr 1fr; border:1px solid var(--line-soft); }
+@media (max-width:640px){ .buy-grid{ grid-template-columns:1fr; } }
+.buy-cell{ padding:36px; border-right:1px solid var(--line-soft); }
+.buy-cell:last-child{ border-right:none; }
+@media (max-width:640px){ .buy-cell{ border-right:none; border-bottom:1px solid var(--line-soft); } }
+.buy-cell .btn{ width:100%; justify-content:center; margin-top:20px; }
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-list{ grid-column:1/9; }
+@media (max-width:820px){ .faq-list{ grid-column:1/13; } }
+.faq-item{ border-bottom:1px solid var(--line-soft); }
+.faq-q{ width:100%; display:flex; justify-content:space-between; gap:16px; padding:20px 2px; text-align:left; font-family:var(--serif); font-size:1.05rem; }
+.faq-q .plus{ flex:none; font-size:14px; color:var(--ink-faint); transition:transform .3s, color .3s; }
+.faq-item.open .plus{ transform:rotate(45deg); color:var(--red-bright); }
+.faq-a{ max-height:0; overflow:hidden; transition:max-height .4s var(--ease); }
+.faq-a-inner{ padding:0 2px 20px; max-width:64ch; }
+.faq-a-inner p{ font-size:0.92rem; }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-list{ grid-column:1/13; border:1px solid var(--line-soft); }
+.c-row{ display:grid; grid-template-columns:1fr 2fr auto; align-items:center; gap:16px; padding:20px 24px; border-bottom:1px solid var(--line-soft); transition:background .2s; }
+.c-row:last-child{ border-bottom:none; }
+.c-row:hover{ background:rgba(224,24,31,0.05); }
+.c-row .c-label{ font-size:10.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); }
+.c-row .c-value{ font-family:var(--serif); font-size:1.15rem; }
+.c-row i{ color:var(--ink-faint); }
+@media (max-width:640px){ .c-row{ grid-template-columns:1fr; gap:6px; } .c-row i{ display:none; } }
+
+.map-frame{ grid-column:1/13; border:1px solid var(--line-soft); margin-top:16px; }
+.map-frame iframe{ width:100%; height:240px; border:0; filter:grayscale(0.4) contrast(1.05); display:block; }
+.map-foot{ padding:16px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid var(--line-soft); }
+.map-foot p{ font-size:0.85rem; }
+
+/* ============================================================
+   HOURS
+   ============================================================ */
+.status-row{ display:inline-flex; align-items:center; gap:12px; border:1px solid var(--line); padding:14px 22px; margin-top:20px; }
+.status-dot{ width:8px; height:8px; border-radius:50%; position:relative; }
+.status-ping{ position:absolute; inset:0; border-radius:50%; animation:ping 1.6s cubic-bezier(0,0,.2,1) infinite; }
+@keyframes ping{ 75%,100%{ transform:scale(2.6); opacity:0; } }
+.status-open{ background:#22c55e; } .status-closed{ background:var(--red-bright); }
+.hours-list{ grid-column:7/13; }
+@media (max-width:820px){ .hours-list{ grid-column:1/13; margin-top:24px; } }
+.h-row{ display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line-soft); }
+.h-row .day{ font-family:var(--serif); font-size:1.1rem; }
+.h-row .time{ text-align:right; }
+.h-row .time b{ display:block; font-size:0.95rem; }
+.h-row .time span{ font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{ border-top:1px solid var(--line-soft); padding-block:48px 28px; }
+.f-grid{ grid-column:1/13; display:grid; grid-template-columns:subgrid; gap:20px; margin-bottom:40px; }
+.f-brand{ grid-column:1/5; }
+.f-brand img{ height:26px; margin-bottom:14px; }
+.f-brand p{ font-size:0.85rem; max-width:32ch; }
+.f-col{ grid-column:span 2; }
+.f-col h5{ font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:14px; }
+.f-col a{ display:block; font-size:0.85rem; color:var(--ink-dim); padding:4px 0; transition:color .2s; }
+.f-col a:hover{ color:var(--red-bright); }
+@media (max-width:820px){ .f-brand{ grid-column:1/13; } .f-col{ grid-column:span 6; } }
+.f-social{ display:flex; gap:10px; margin-top:6px; }
+.f-social a{ width:32px; height:32px; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:0.8rem; transition:all .2s; }
+.f-social a:hover{ background:var(--red); border-color:var(--red); }
+.f-bottom{ grid-column:1/13; display:flex; flex-direction:column; gap:10px; padding-top:22px; border-top:1px solid var(--line-soft); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink-faint); }
+@media (min-width:640px){ .f-bottom{ flex-direction:row; justify-content:space-between; } }
+.dev-credit a{ display:inline-flex; align-items:center; gap:8px; font-size:10.5px; color:var(--ink-faint); transition:.2s; }
+.dev-credit a:hover{ color:#fff; }
+.pulse-dot{ width:6px; height:6px; border-radius:50%; background:#22c55e; animation:pulse 2s infinite; }
+@keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(34,197,94,.6);} 70%{box-shadow:0 0 0 8px rgba(34,197,94,0);} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0);} }
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+#preloader{ position:fixed; inset:0; z-index:200; background:var(--black); display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity .5s, visibility .5s; }
+#preloader.fade-out{ opacity:0; visibility:hidden; }
+.pre-mark{ font-family:var(--serif); font-style:italic; font-size:1.3rem; letter-spacing:0.08em; color:var(--red-bright); margin-bottom:18px; }
+.pre-bar-track{ width:160px; height:1px; background:var(--line); }
+#loader-bar{ height:100%; width:0%; background:var(--red); transition:width 1s var(--ease); }
+
+#scroll-progress{ position:fixed; top:0; left:0; height:2px; background:var(--red); z-index:100; width:0%; }
+
+.back-to-top{ position:fixed; bottom:22px; right:22px; z-index:60; width:40px; height:40px; background:var(--panel); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transform:translateY(8px); transition:all .3s; }
+.back-to-top.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+.back-to-top:hover{ background:var(--red); border-color:var(--red); }
+
+.text-red{ color:var(--red-bright); }
+.visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+</style>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
-
 <div id="scroll-progress"></div>
-
 <div id="preloader" aria-hidden="true">
   <div class="pre-mark">MSAFE</div>
   <div class="pre-bar-track"><div id="loader-bar"></div></div>
 </div>
 
-<!-- ============================= NAV ============================= -->
 <header>
 <nav class="site-nav" id="siteNav" aria-label="Primary">
   <a href="#home" class="nav-logo" aria-label="MSAFE Industries home">
-    <img src="images/logo.png" alt="MSAFE Industries logo" width="140" height="32" onerror="this.src='images/logo.png'">
+    <img src="images/logo.png" alt="MSAFE Industries logo" width="120" height="26">
   </a>
-
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#specifications">Specs</a>
@@ -919,14 +1310,11 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
     <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
   </div>
-
   <a href="#buy-now" class="btn btn-fill nav-cta">Order Now</a>
-
   <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
     <span></span><span></span><span></span>
   </button>
 </nav>
-
 <div class="mobile-menu" id="mobileMenu">
   <a href="#home">Home</a>
   <a href="#features">Features</a>
@@ -942,239 +1330,172 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
 
 <main id="main">
 
-<!-- ============================= HERO ============================= -->
 <section id="home" class="hero">
-  <div class="hero-glow" id="heroGlow"></div>
-  <div class="hero-grain"></div>
-
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow hero-kicker reveal in">The Future of Automation</div>
-      <h1 class="hero-title reveal in">
-        AQUARUN<br><span class="line2 italic-serif">by MSAFE</span>
-      </h1>
-      <p class="lede hero-body reveal in">
-        Precision-engineered water level automation for the demands of Indian homes and industry. Magnetic-float sensing meets uncompromising pump protection — set once, and stop thinking about your tank.
-      </p>
-      <div class="hero-actions reveal in">
-        <a href="#specifications" class="btn btn-fill magnetic">Explore the Tech</a>
-        <a href="#buy-now" class="btn btn-ghost magnetic">Where to Buy</a>
+  <div class="grid">
+    <div class="hero-top">
+      <div class="kicker">Automatic Water Level Control</div>
+      <div class="hero-serial">MSAFE / AQUARUN — KL, IN</div>
+    </div>
+    <div class="hero-headline reveal in">
+      <h1>AQUARUN</h1>
+    </div>
+    <div class="hero-body-row">
+      <div class="hero-lede-col reveal in">
+        <p class="lede">A water level controller built for how Indian tanks actually fail — dry-running pumps, overflowing terraces, voltage that never behaves. Magnetic-float sensing, wired once, checked never.</p>
       </div>
-      <div class="hero-stats reveal in">
-        <div class="hero-stat"><b>1.5 HP</b><span>Relay Capacity</span></div>
-        <div class="hero-stat"><b>48 Hrs</b><span>Stress Tested</span></div>
-        <div class="hero-stat"><b>1 Year</b><span>Full Warranty</span></div>
+      <div class="hero-stats-col reveal in">
+        <div class="hstat"><b>1.5 HP</b><span>Relay Capacity</span></div>
+        <div class="hstat"><b>48 Hrs</b><span>Stress Tested</span></div>
+        <div class="hstat"><b>1 Year</b><span>Warranty</span></div>
+      </div>
+      <div class="hero-cta-col reveal in">
+        <a href="#specifications" class="btn btn-fill">Specifications</a>
+        <a href="#buy-now" class="btn btn-line">Where to Buy</a>
       </div>
     </div>
-
-    <div class="hero-visual">
-      <div class="hero-visual-glow"></div>
-      <img src="images/MSAFENOBG.png" alt="AQUARUN automatic water level controller unit by MSAFE Industries" class="hero-product" width="420" height="420" fetchpriority="high">
-      <div class="hero-tag t1"><i class="fas fa-bolt"></i> Surge Protected</div>
-      <div class="hero-tag t2"><i class="fas fa-droplet"></i> Zero Overflow</div>
+    <div class="hero-frame reveal in">
+      <div class="hero-frame-inner">
+        <div class="hero-frame-copy">
+          <span class="kicker">Field Notes</span>
+          <h3>Set once. No app, no dashboard, no subscription.</h3>
+          <p>The controller sits at the switchboard and does one job — read the tank, protect the pump, stop the overflow.</p>
+        </div>
+        <div class="hero-frame-img">
+          <img src="images/MSAFENOBG.png" alt="AQUARUN automatic water level controller unit" width="220" height="220" fetchpriority="high">
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="scroll-cue"><span>Scroll</span><div class="line"></div></div>
 </section>
 
-<!-- ============================= MARQUEE ============================= -->
-<div class="marquee-strip" aria-hidden="true">
+<div class="marquee" aria-hidden="true">
   <div class="marquee-track">
     <span><i class="fas fa-circle"></i>Dry-Run Protection<i class="fas fa-circle"></i>Overflow Prevention<i class="fas fa-circle"></i>Magnetic Float Sensing<i class="fas fa-circle"></i>Surge Safe<i class="fas fa-circle"></i>Made in Kerala</span>
     <span><i class="fas fa-circle"></i>Dry-Run Protection<i class="fas fa-circle"></i>Overflow Prevention<i class="fas fa-circle"></i>Magnetic Float Sensing<i class="fas fa-circle"></i>Surge Safe<i class="fas fa-circle"></i>Made in Kerala</span>
   </div>
 </div>
-<!-- ============================= CORE FEATURES (bento) ============================= -->
-<section id="features" class="section-pad">
-  <div class="wrap">
-    <div class="head-block reveal">
-      <div class="eyebrow">Core Systems</div>
-      <h2>Engineered for the conditions that actually break pumps.</h2>
+
+<section id="features" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Core Systems</div>
+      <h2>What's actually inside.</h2>
+      <div class="s-note"><p>Five mechanisms, one board.</p></div>
     </div>
 
-    <div class="bento">
-      <article class="b-card b-large reveal">
-        <span class="b-index">01</span>
-        <div class="b-icon"><i class="fas fa-droplet-slash"></i></div>
-        <h3>Dry-Run Protection</h3>
-        <p>High-precision magnetic sensors detect zero-flow and low-source conditions instantly, cutting power to your pump before it can run dry, overheat, or burn out its windings.</p>
-      </article>
+    <div class="feat-row reveal"><span class="feat-num">01</span><div class="feat-title"><h3>Dry-Run Protection</h3></div><div class="feat-desc"><p>Magnetic sensors detect zero-flow and low-source conditions instantly, cutting power before the motor overheats or the windings burn out.</p></div></div>
+    <div class="feat-row reveal"><span class="feat-num">02</span><div class="feat-title"><h3>Voltage Management</h3></div><div class="feat-desc"><p>Dynamic monitoring shields the motor from surges, drops and phase irregularities on the incoming supply.</p></div></div>
+    <div class="feat-row reveal"><span class="feat-num">03</span><div class="feat-title"><h3>Magnetic Float Sensing</h3></div><div class="feat-desc"><p>Corrosion-resistant floats built for years of maintenance-free switching, even in hard water.</p></div></div>
+    <div class="feat-row reveal"><span class="feat-num">04</span><div class="feat-title"><h3>Overflow Prevention</h3></div><div class="feat-desc"><p>A precise upper cutoff stops the tank from wasting water once it's full — no timers, no guesswork.</p></div></div>
+    <div class="feat-row reveal"><span class="feat-num">05</span><div class="feat-title"><h3>Anti-Cycling Lockout</h3></div><div class="feat-desc"><p>A built-in restart delay stops rapid on/off switching during unstable supply, which is what actually kills most pump motors.</p></div></div>
+  </div>
+</section>
 
-      <article class="b-card b-small reveal" style="transition-delay:100ms">
-        <span class="b-index">02</span>
-        <div class="b-icon"><i class="fas fa-bolt"></i></div>
-        <h3>Voltage Management</h3>
-        <p>Dynamic monitoring shields your motor from surges, drops and phase irregularities on the incoming supply.</p>
-      </article>
-
-      <article class="b-card b-small reveal" style="transition-delay:200ms">
-        <span class="b-index">03</span>
-        <div class="b-icon"><i class="fas fa-magnet"></i></div>
-        <h3>Magnetic Float Tech</h3>
-        <p>Corrosion-resistant floats built for years of maintenance-free switching, even in hard water.</p>
-      </article>
-
-      <article class="b-card b-small reveal" style="transition-delay:300ms">
-        <span class="b-index">04</span>
-        <div class="b-icon"><i class="fas fa-water"></i></div>
-        <h3>Overflow Prevention</h3>
-        <p>Precise upper-level cutoff stops your tank from wasting a single litre once it's full.</p>
-      </article>
-
-      <article class="b-card b-small reveal" style="transition-delay:400ms">
-        <span class="b-index">05</span>
-        <div class="b-icon"><i class="fas fa-shield-halved"></i></div>
-        <h3>Pump Safety Lockout</h3>
-        <p>Automatic restart delay protects the motor from rapid on/off cycling during unstable supply.</p>
-      </article>
+<section class="s-sm rule">
+  <div class="grid">
+    <div class="stat-strip reveal">
+      <div class="stat-cell"><b class="counter" data-target="1">0</b><span>Year Warranty</span></div>
+      <div class="stat-cell"><b class="counter" data-target="48">0</b><span>Hour Stress Test</span></div>
+      <div class="stat-cell"><b class="counter" data-target="1.5" data-decimal="1">0</b><span>HP Relay Rating</span></div>
+      <div class="stat-cell"><b class="counter" data-target="100">0</b><span>% Dry-Run Safe</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============================= WHY CHOOSE AQUARUN ============================= -->
-<section class="section-pad section-pad-sm" style="background:var(--black); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);">
-  <div class="wrap">
-    <div class="head-block reveal">
-      <div class="eyebrow">Why Choose AQUARUN</div>
-      <h2>Built to remove the one chore nobody wants.</h2>
-    </div>
-    <div class="counters reveal">
-      <div class="counter-cell"><b class="counter" data-target="1">0</b><span>Year Warranty</span></div>
-      <div class="counter-cell"><b class="counter" data-target="48">0</b><span>Hour Stress Test</span></div>
-      <div class="counter-cell"><b class="counter" data-target="1.5" data-decimal="1">0</b><span>HP Relay Rating</span></div>
-      <div class="counter-cell"><b class="counter" data-target="100">0</b><span>% Dry-Run Safe</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================= QUALITY / MANUFACTURING ============================= -->
-<section class="section-pad">
-  <div class="wrap split">
-    <div class="split-media reveal-x">
-      <div class="split-media-frame">
-        <div class="split-glow-ring"></div>
-        <img src="images/all.png" alt="AQUARUN controller components and internal build quality" loading="lazy" width="640" height="640" onerror="this.closest('.split-media').style.display='none'">
+<section class="s">
+  <div class="grid">
+    <div class="split">
+      <div class="split-media reveal-x">
+        <img src="images/all.png" alt="AQUARUN controller components and build quality" loading="lazy" width="640" height="480" onerror="this.closest('.split-media').style.display='none'">
       </div>
-    </div>
-    <div class="reveal-x-r">
-      <div class="eyebrow">Manufacturing Quality</div>
-      <h2 style="margin-top:16px;">Engineered to last a lifetime, not a monsoon.</h2>
-      <p class="lede" style="margin-top:20px;">Every AQUARUN unit undergoes a 48-hour continuous stress test before it leaves our facility. Component sourcing, soldering and enclosure sealing are inspected by hand — because "MSAFE" is a promise, not a label.</p>
-      <div class="metric-row">
-        <div class="metric"><b>1 YR</b><span>Full Warranty</span></div>
-        <div class="metric"><b>48 H</b><span>Stress Tested</span></div>
+      <div class="split-copy reveal-x">
+        <span class="kicker">Manufacturing Quality</span>
+        <h2 style="margin-top:10px;">Built to last a lifetime, not a monsoon.</h2>
+        <p class="lede" style="margin-top:14px;">Every unit runs 48 hours continuous before it leaves the facility. Component sourcing, soldering and enclosure sealing are checked by hand.</p>
+        <div class="metric-pair">
+          <div><b>1 YR</b><span>Full Warranty</span></div>
+          <div><b>48 H</b><span>Stress Tested</span></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================= SPECIFICATIONS ============================= -->
-<section id="specifications" class="section-pad" style="background:var(--black);">
-  <div class="wrap">
-    <div class="head-block head-block--center reveal">
-      <div class="eyebrow">Technical Performance</div>
+<section id="specifications" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Technical Performance</div>
       <h2>Specifications</h2>
+      <div class="s-note"><p>Single-phase, standard supply.</p></div>
     </div>
-
-    <div class="spec-panel reveal">
-      <div class="spec-row">
-        <span class="spec-label">Input Voltage</span>
-        <span class="spec-value">230V AC, 50Hz, Single Phase</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-label">Relay Capacity</span>
-        <span class="spec-value">Up to 1.5 HP</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-label">Sensor Technology</span>
-        <span class="spec-value">Magnetic Float Switches</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-label">Protection Type</span>
-        <span class="spec-value">Dry-Run &amp; Overflow Cutoff</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-label">Restart Delay</span>
-        <span class="spec-value">Anti-Cycling Lockout</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-label">Build &amp; Testing</span>
-        <span class="spec-value">48-Hour Continuous Stress Test</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-label">Warranty</span>
-        <span class="spec-value">1 Year, Full Coverage</span>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ============================= HOW IT WORKS / INSTALLATION (tabs) ============================= -->
-<section id="how-it-works" class="section-pad">
-  <div class="wrap">
-    <div class="head-block reveal">
-      <div class="eyebrow">How It Works</div>
-      <h2>From tank to switch, in four steps.</h2>
-    </div>
-
-    <div class="tabs-nav reveal" role="tablist" aria-label="How AQUARUN works">
-      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-operation" id="tabbtn-operation" data-tab="operation">Operation</button>
-      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-install" id="tabbtn-install" data-tab="install">Installation</button>
-    </div>
-
-    <div class="tab-panel active" id="tab-operation" role="tabpanel" aria-labelledby="tabbtn-operation">
-      <div class="process-steps">
-        <div class="p-step reveal"><span class="p-num">01</span><h4>Sensing</h4><p>Magnetic floats continuously track the water level inside your tank without any moving electronics in contact with water.</p></div>
-        <div class="p-step reveal" style="transition-delay:80ms"><span class="p-num">02</span><h4>Decision</h4><p>The controller compares live level data against your set high and low points to decide whether the pump should run.</p></div>
-        <div class="p-step reveal" style="transition-delay:160ms"><span class="p-num">03</span><h4>Switching</h4><p>The relay engages or cuts power to the pump motor, with a built-in delay to prevent rapid on/off cycling.</p></div>
-        <div class="p-step reveal" style="transition-delay:240ms"><span class="p-num">04</span><h4>Protection</h4><p>If a dry-run or overflow condition is detected, AQUARUN overrides the cycle and shuts the pump down immediately.</p></div>
-      </div>
-    </div>
-
-    <div class="tab-panel" id="tab-install" role="tabpanel" aria-labelledby="tabbtn-install">
-      <div class="process-steps">
-        <div class="p-step reveal in"><span class="p-num">01</span><h4>Mount the Unit</h4><p>Fix the controller near your pump switch or distribution board, within reach of the tank wiring.</p></div>
-        <div class="p-step reveal in" style="transition-delay:80ms"><span class="p-num">02</span><h4>Place the Floats</h4><p>Position the magnetic floats at your desired high and low water marks inside the tank.</p></div>
-        <div class="p-step reveal in" style="transition-delay:160ms"><span class="p-num">03</span><h4>Wire the Pump</h4><p>Connect the pump supply through the AQUARUN relay following the included wiring guide.</p></div>
-        <div class="p-step reveal in" style="transition-delay:240ms"><span class="p-num">04</span><h4>Power On</h4><p>Switch on the mains supply — AQUARUN begins automatic operation immediately, no configuration needed.</p></div>
-      </div>
+    <div class="spec-table reveal">
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Input Voltage</span></div><div class="spec-td"><span class="spec-v">230V AC, 50Hz, Single Phase</span></div></div>
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Relay Capacity</span></div><div class="spec-td"><span class="spec-v">Up to 1.5 HP</span></div></div>
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Sensor Technology</span></div><div class="spec-td"><span class="spec-v">Magnetic Float Switches</span></div></div>
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Protection Type</span></div><div class="spec-td"><span class="spec-v">Dry-Run &amp; Overflow Cutoff</span></div></div>
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Restart Delay</span></div><div class="spec-td"><span class="spec-v">Anti-Cycling Lockout</span></div></div>
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Build &amp; Testing</span></div><div class="spec-td"><span class="spec-v">48-Hour Continuous Stress Test</span></div></div>
+      <div class="spec-tr"><div class="spec-td"><span class="spec-k">Warranty</span></div><div class="spec-td"><span class="spec-v">1 Year, Full Coverage</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============================= APPLICATIONS ============================= -->
-<section id="applications" class="section-pad" style="background:var(--black); border-top:1px solid var(--line-soft);">
-  <div class="wrap">
-    <div class="head-block reveal">
-      <div class="eyebrow">Applications</div>
-      <h2>One controller, every kind of building.</h2>
+<section id="how-it-works" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">How It Works</div>
+      <h2>Tank to switch, four steps.</h2>
+      <div class="s-note"><p>Operation and installation.</p></div>
     </div>
-
-    <div class="apps-grid reveal">
-      <div class="app-chip"><i class="fas fa-house"></i><span>Residential Homes</span></div>
-      <div class="app-chip"><i class="fas fa-building"></i><span>Apartments</span></div>
-      <div class="app-chip"><i class="fas fa-hotel"></i><span>Villas</span></div>
-      <div class="app-chip"><i class="fas fa-bed"></i><span>Hotels &amp; Resorts</span></div>
-      <div class="app-chip"><i class="fas fa-hospital"></i><span>Hospitals</span></div>
-      <div class="app-chip"><i class="fas fa-industry"></i><span>Factories</span></div>
-      <div class="app-chip"><i class="fas fa-city"></i><span>Commercial Buildings</span></div>
-      <div class="app-chip"><i class="fas fa-school"></i><span>Schools &amp; Campuses</span></div>
+    <div class="tab-nav">
+      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="operation">Operation</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="install">Installation</button>
+    </div>
+    <div class="tab-panel active" id="tab-operation">
+      <div class="p-step reveal in"><span class="p-num">01</span><h4>Sensing</h4><p>Magnetic floats track the water level continuously, without electronics touching the water.</p></div>
+      <div class="p-step reveal in"><span class="p-num">02</span><h4>Decision</h4><p>The controller checks live level data against your set high and low points.</p></div>
+      <div class="p-step reveal in"><span class="p-num">03</span><h4>Switching</h4><p>The relay engages or cuts power to the pump, with a delay built in against rapid cycling.</p></div>
+      <div class="p-step reveal in"><span class="p-num">04</span><h4>Protection</h4><p>A dry-run or overflow condition overrides the cycle and shuts the pump down immediately.</p></div>
+    </div>
+    <div class="tab-panel" id="tab-install">
+      <div class="p-step"><span class="p-num">01</span><h4>Mount the Unit</h4><p>Fix the controller near the pump switch or distribution board.</p></div>
+      <div class="p-step"><span class="p-num">02</span><h4>Place the Floats</h4><p>Position the magnetic floats at your desired high and low marks.</p></div>
+      <div class="p-step"><span class="p-num">03</span><h4>Wire the Pump</h4><p>Connect the pump supply through the relay per the wiring guide.</p></div>
+      <div class="p-step"><span class="p-num">04</span><h4>Power On</h4><p>Switch on the mains — operation starts immediately, no setup required.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============================= COMPARISON: MANUAL VS AUTOMATIC ============================= -->
-<section id="problem" class="section-pad">
-  <div class="wrap">
-    <div class="head-block head-block--center reveal">
-      <div class="eyebrow">Manual vs. Automatic</div>
-      <h2>Smart vs. <span class="text-red italic-serif">Traditional</span></h2>
+<section id="applications" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Applications</div>
+      <h2>One controller, every building type.</h2>
+      <div class="s-note"><p>Residential to industrial.</p></div>
     </div>
+    <div class="app-list reveal">
+      <div class="app-cell"><i class="fas fa-house"></i>Residential Homes</div>
+      <div class="app-cell"><i class="fas fa-building"></i>Apartments</div>
+      <div class="app-cell"><i class="fas fa-hotel"></i>Villas</div>
+      <div class="app-cell"><i class="fas fa-bed"></i>Hotels &amp; Resorts</div>
+      <div class="app-cell"><i class="fas fa-hospital"></i>Hospitals</div>
+      <div class="app-cell"><i class="fas fa-industry"></i>Factories</div>
+      <div class="app-cell"><i class="fas fa-city"></i>Commercial Buildings</div>
+      <div class="app-cell"><i class="fas fa-school"></i>Schools &amp; Campuses</div>
+    </div>
+  </div>
+</section>
 
+<section id="problem" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Manual vs. Automatic</div>
+      <h2>Smart vs. <em>traditional</em>.</h2>
+      <div class="s-note"><p>Same tank, different outcome.</p></div>
+    </div>
     <div class="compare reveal">
       <div class="compare-col old">
-        <div class="compare-tag">OLD</div>
-        <h4 style="text-transform:uppercase; letter-spacing:-0.01em; margin-bottom:34px;">Manual Management</h4>
+        <h4 style="margin-bottom:20px;">Manual Management</h4>
         <ul class="compare-list">
           <li><i class="fas fa-xmark"></i>Constant tank monitoring</li>
           <li><i class="fas fa-xmark"></i>Risk of pump dry-running</li>
@@ -1183,290 +1504,190 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
         </ul>
       </div>
       <div class="compare-col new">
-        <div class="compare-tag" style="color:#fff;">NEW</div>
-        <h4 style="text-transform:uppercase; letter-spacing:-0.01em; margin-bottom:34px; color:#fff;">AQUARUN Solution</h4>
+        <h4 style="margin-bottom:20px; color:#fff;">AQUARUN Solution</h4>
         <ul class="compare-list">
-          <li><i class="fas fa-check"></i>Set it and forget it</li>
-          <li><i class="fas fa-check"></i>Automatic dry-run safety</li>
-          <li><i class="fas fa-check"></i>Zero-overflow guarantee</li>
+          <li><i class="fas fa-check"></i>No manual checks needed</li>
+          <li><i class="fas fa-check"></i>Automatic dry-run cutoff</li>
+          <li><i class="fas fa-check"></i>Zero-overflow cutoff</li>
           <li><i class="fas fa-check"></i>Anti-cycling motor protection</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
-<!-- ============================= GALLERY ============================= -->
-<section id="gallery" class="section-pad" style="background:var(--black); border-top:1px solid var(--line-soft);">
-  <div class="wrap">
-    <div class="head-block reveal">
-      <div class="eyebrow">Photo Gallery</div>
+
+<section id="gallery" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Photo Gallery</div>
       <h2>AQUARUN, in the field.</h2>
+      <div class="s-note"><p>Installed units and detail.</p></div>
     </div>
-
     <div class="gallery-grid reveal">
-      <div class="gallery-item span-2"><img src="images/postt.jpg" alt="AQUARUN controller installed on-site" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/post.jpg" alt="AQUARUN water level controller close-up" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/1.png" alt="AQUARUN unit product photo" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/2.png" alt="AQUARUN controller wiring detail" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/3.png" alt="AQUARUN magnetic float sensor" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/6.jpg" alt="AQUARUN controller mounted at pump switch" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/9.png" alt="AQUARUN device packaging" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
-      <div class="gallery-item"><img src="images/11.jpg" alt="AQUARUN controller installation example" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/postt.jpg" alt="AQUARUN controller installed on-site" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/post.jpg" alt="AQUARUN water level controller close-up" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/1.png" alt="AQUARUN unit product photo" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/2.png" alt="AQUARUN controller wiring detail" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/3.png" alt="AQUARUN magnetic float sensor" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/6.jpg" alt="AQUARUN controller mounted at switch" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/9.png" alt="AQUARUN device packaging" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
+      <div class="g-item"><img src="images/11.jpg" alt="AQUARUN installation example" loading="lazy" onerror="this.closest('.g-item').style.display='none'"></div>
     </div>
   </div>
 </section>
 
-<!-- ============================= TESTIMONIALS ============================= -->
-<section class="section-pad">
-  <div class="wrap">
-    <div class="head-block reveal">
-      <div class="eyebrow">Customer Testimonials</div>
-      <h2>What owners are saying.</h2>
-    </div>
-  </div>
-  <div class="testi-track-wrap reveal">
-    <div class="testi-track" id="testiTrack">
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p>Our overhead tank used to overflow at least once a month. Since fitting AQUARUN we haven't had to think about it once.</p>
-        <div class="testi-person"><div class="testi-avatar">R</div><div><b>Ravi Kumar</b><span>Homeowner, Kollam</span></div></div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p>Lost a pump motor to dry-running two years ago. AQUARUN has kept our replacement running without a single issue since.</p>
-        <div class="testi-person"><div class="testi-avatar">S</div><div><b>Sunitha Menon</b><span>Apartment Facility Manager</span></div></div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p>Installation took under an hour and the build quality is obviously a step above the usual float switches.</p>
-        <div class="testi-person"><div class="testi-avatar">A</div><div><b>Anoop Pillai</b><span>Electrician &amp; Installer</span></div></div>
-      </div>
-      <div class="testi-card">
-        <div class="testi-stars">★★★★★</div>
-        <p>We run three overhead tanks at our small hotel. AQUARUN across all three has cut our water wastage noticeably.</p>
-        <div class="testi-person"><div class="testi-avatar">T</div><div><b>Thomas Varghese</b><span>Hotel Owner</span></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================= DEALER CTA ============================= -->
-<section class="section-pad-sm">
-  <div class="wrap">
+<section class="s-sm rule">
+  <div class="grid">
     <div class="cta-band reveal">
-      <div class="eyebrow">Become a Dealer</div>
-      <h2 style="max-width:20ch;">Bring AQUARUN to your region.</h2>
-      <p class="lede">We're expanding our dealer network across Kerala and beyond. If you supply pumps, plumbing hardware or electrical fittings, partner with MSAFE Industries.</p>
-      <div class="cta-actions">
-        <a href="https://wa.me/919037627335?text=Hi%2C%20I%27m%20interested%20in%20becoming%20an%20AQUARUN%20dealer." class="btn btn-fill magnetic">Enquire on WhatsApp</a>
-        <a href="tel:+919037627335" class="btn btn-ghost magnetic">Call Us Directly</a>
+      <div class="cta-band-copy">
+        <span class="kicker">Become a Dealer</span>
+        <h3 style="margin-top:10px;">Bring AQUARUN to your region.</h3>
+      </div>
+      <div class="cta-band-act">
+        <a href="https://wa.me/919037627335?text=Hi%2C%20I%27m%20interested%20in%20becoming%20an%20AQUARUN%20dealer." class="btn btn-fill">WhatsApp Us</a>
+        <a href="tel:+919037627335" class="btn btn-line">Call</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================= BUY NOW ============================= -->
-<section id="buy-now" class="section-pad" style="background:var(--black); border-top:1px solid var(--line-soft);">
-  <div class="wrap">
-    <div class="head-block head-block--center reveal">
-      <div class="eyebrow">Ready to Automate?</div>
+<section id="buy-now" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Ready to Automate</div>
       <h2>Order Online</h2>
+      <div class="s-note"><p>Two marketplaces, same unit.</p></div>
     </div>
-
     <div class="buy-grid reveal">
-      <div class="buy-card">
-        <div class="buy-icon"><i class="fab fa-amazon" style="font-size:1.8rem; color:#FF9900;"></i></div>
-        <h3>Amazon</h3>
-        <p style="margin:14px 0 26px; font-size:0.9rem;">Fast delivery and secure payments via Amazon India.</p>
-        <a href="https://amzn.in/d/04q9t42u" target="_blank" rel="noopener" class="btn btn-fill" style="width:100%;">Order on Amazon <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></a>
+      <div class="buy-cell">
+        <i class="fab fa-amazon" style="font-size:1.5rem; color:#FF9900;"></i>
+        <h3 style="margin-top:14px;">Amazon</h3>
+        <p style="margin-top:8px;">Fast delivery and secure payments via Amazon India.</p>
+        <a href="https://amzn.in/d/04q9t42u" target="_blank" rel="noopener" class="btn btn-fill">Order on Amazon</a>
       </div>
-      <div class="buy-card">
-        <div class="buy-icon"><i class="fas fa-bag-shopping" style="font-size:1.8rem; color:#2874f0;"></i></div>
-        <h3>Flipkart</h3>
-        <p style="margin:14px 0 26px; font-size:0.9rem;">Fast delivery and secure payments via Flipkart.</p>
-        <a href="https://www.flipkart.com/msafe-aquarun-sp-wired-sensor-security-system/p/itm3d5223d856771" target="_blank" rel="noopener" class="btn" style="width:100%; background:#2874f0; color:#fff;">Order on Flipkart <i class="fas fa-arrow-up-right-from-square" style="font-size:10px;"></i></a>
+      <div class="buy-cell">
+        <i class="fas fa-bag-shopping" style="font-size:1.5rem; color:#2874f0;"></i>
+        <h3 style="margin-top:14px;">Flipkart</h3>
+        <p style="margin-top:8px;">Fast delivery and secure payments via Flipkart.</p>
+        <a href="https://www.flipkart.com/msafe-aquarun-sp-wired-sensor-security-system/p/itm3d5223d856771" target="_blank" rel="noopener" class="btn" style="background:#2874f0; color:#fff; width:100%; justify-content:center; margin-top:20px;">Order on Flipkart</a>
       </div>
     </div>
   </div>
 </section>
-<!-- ============================= FAQ ============================= -->
-<section id="faq" class="section-pad">
-  <div class="wrap" style="max-width:820px;">
-    <div class="head-block reveal">
-      <div class="eyebrow">Frequently Asked Questions</div>
-      <h2>Good to know.</h2>
-    </div>
 
-    <div class="reveal">
+<section id="faq" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">FAQ</div>
+      <h2>Good to know.</h2>
+      <div class="s-note"><p>Common questions, answered.</p></div>
+    </div>
+    <div class="faq-list reveal">
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What does AQUARUN do?<span class="plus"><i class="fas fa-plus" style="font-size:11px;"></i></span></button>
-        <div class="faq-a"><div class="faq-a-inner"><p>AQUARUN automatically switches your water pump on and off based on tank level, protects the pump from dry-running, and stops overflow — without any manual monitoring.</p></div></div>
+        <button class="faq-q" aria-expanded="false">What does AQUARUN do?<span class="plus"><i class="fas fa-plus"></i></span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>It automatically switches your water pump on and off based on tank level, protects the pump from dry-running, and stops overflow — without manual monitoring.</p></div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Does AQUARUN protect against dry-run damage?<span class="plus"><i class="fas fa-plus" style="font-size:11px;"></i></span></button>
-        <div class="faq-a"><div class="faq-a-inner"><p>Yes. It detects zero-flow and low-source conditions and cuts power to the pump before it can run dry and burn out.</p></div></div>
+        <button class="faq-q" aria-expanded="false">Does it protect against dry-run damage?<span class="plus"><i class="fas fa-plus"></i></span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>Yes. It detects zero-flow and low-source conditions and cuts power before the pump can run dry and burn out.</p></div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What is the warranty on AQUARUN?<span class="plus"><i class="fas fa-plus" style="font-size:11px;"></i></span></button>
+        <button class="faq-q" aria-expanded="false">What's the warranty?<span class="plus"><i class="fas fa-plus"></i></span></button>
         <div class="faq-a"><div class="faq-a-inner"><p>Every unit ships with a full one-year warranty and is stress tested for 48 continuous hours before leaving the factory.</p></div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">What pump sizes is AQUARUN compatible with?<span class="plus"><i class="fas fa-plus" style="font-size:11px;"></i></span></button>
+        <button class="faq-q" aria-expanded="false">What pump sizes is it compatible with?<span class="plus"><i class="fas fa-plus"></i></span></button>
         <div class="faq-a"><div class="faq-a-inner"><p>The relay is rated for single-phase motors up to 1.5 HP on a standard 230V AC, 50Hz supply.</p></div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">Where is AQUARUN made?<span class="plus"><i class="fas fa-plus" style="font-size:11px;"></i></span></button>
+        <button class="faq-q" aria-expanded="false">Where is it made?<span class="plus"><i class="fas fa-plus"></i></span></button>
         <div class="faq-a"><div class="faq-a-inner"><p>AQUARUN is designed, assembled and tested by MSAFE Industries in Kerala, India.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================= CONTACT ============================= -->
-<section id="contact" class="section-pad" style="background:var(--black); border-top:1px solid var(--line-soft);">
-  <div class="wrap">
-    <div class="head-block reveal-x">
-      <div class="eyebrow">Connection Hub</div>
-      <h2>Let's fuel the <span class="text-red italic-serif">run</span>.</h2>
+<section id="contact" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Connection Hub</div>
+      <h2>Let's fuel the <em>run</em>.</h2>
+      <div class="s-note"><p>Kollam, Kerala.</p></div>
     </div>
-
-    <div class="contact-grid reveal">
-      <a href="tel:+919037627335" class="contact-card tel">
-        <i class="fa-solid fa-phone c-icon"></i>
-        <p class="label">Call Center</p>
-        <p class="value">+91 90376 27335</p>
-      </a>
-      <a href="https://wa.me/919037627335" class="contact-card wa">
-        <i class="fab fa-whatsapp c-icon"></i>
-        <p class="label">Direct Message</p>
-        <p class="value">WhatsApp</p>
-      </a>
-      <a href="https://www.instagram.com/msafeindustries/" class="contact-card ig">
-        <i class="fab fa-instagram c-icon"></i>
-        <p class="label">Follow Us</p>
-        <p class="value">@msafeindustries</p>
-      </a>
-      <a href="https://maps.app.goo.gl/ryCFCHcGkyvpJKkx5" class="contact-card loc">
-        <i class="fas fa-map-marker-alt c-icon"></i>
-        <p class="label">Headquarters</p>
-        <p class="value">Kerala, India</p>
-      </a>
+    <div class="contact-list reveal">
+      <a href="tel:+919037627335" class="c-row"><span class="c-label">Call Center</span><span class="c-value">+91 90376 27335</span><i class="fa-solid fa-phone"></i></a>
+      <a href="https://wa.me/919037627335" class="c-row"><span class="c-label">Direct Message</span><span class="c-value">WhatsApp</span><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.instagram.com/msafeindustries/" class="c-row"><span class="c-label">Follow Us</span><span class="c-value">@msafeindustries</span><i class="fab fa-instagram"></i></a>
+      <a href="https://maps.app.goo.gl/ryCFCHcGkyvpJKkx5" class="c-row"><span class="c-label">Headquarters</span><span class="c-value">Kerala, India</span><i class="fas fa-map-marker-alt"></i></a>
     </div>
-
-    <div class="map-card reveal">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126047.123456789!2d76.58!3d8.89!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05fd30360ca4d1%3A0x19932646d65451e0!2sKollam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1715000000000"
-        loading="lazy"
-        title="MSAFE Industries location map — Kollam, Kerala"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <div class="map-card-foot">
-        <div>
-          <p style="font-size:10px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint);">Regional Presence</p>
-          <p style="font-family:var(--serif); font-size:1.1rem;">Headquarters — Kollam, Kerala</p>
-        </div>
-        <a href="https://maps.app.goo.gl/ryCFCHcGkyvpJKkx5" target="_blank" rel="noopener" class="btn btn-fill" style="padding:12px 22px;"><i class="fas fa-location-arrow" style="font-size:11px;"></i> Open in Maps</a>
+    <div class="map-frame reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126047.123456789!2d76.58!3d8.89!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05fd30360ca4d1%3A0x19932646d65451e0!2sKollam%2C%20Kerala!5e0!3m2!1sen!2sin!4v1715000000000" loading="lazy" title="MSAFE Industries location map"></iframe>
+      <div class="map-foot">
+        <p>Headquarters — Kollam, Kerala</p>
+        <a href="https://maps.app.goo.gl/ryCFCHcGkyvpJKkx5" target="_blank" rel="noopener" class="btn btn-fill">Open in Maps</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================= HOURS / STATUS ============================= -->
-<section id="hours" class="section-pad">
-  <div class="wrap split">
-    <div class="reveal-x">
-      <div class="eyebrow">Availability</div>
-      <h2 style="margin-top:16px;">Office Status</h2>
-
-      <div class="status-pill" id="statusCard" style="margin-top:32px;">
-        <div class="status-dot-wrap">
-          <span class="status-ping" id="statusPing"></span>
-          <span class="status-dot" id="statusDot"></span>
-        </div>
-        <div>
-          <span id="statusText" style="display:block; font-family:var(--serif); font-size:1.4rem; font-weight:500;">Checking…</span>
-          <p style="font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-faint);">Live Shop Checker</p>
-        </div>
-      </div>
-
-      <p style="margin-top:26px; color:var(--ink-dim);">Current time is <span id="currentTime" style="color:var(--ink); font-weight:600;">—</span><br><span style="font-size:0.85rem; opacity:0.6;">Based on IST (India Standard Time)</span></p>
+<section id="hours" class="s rule">
+  <div class="grid">
+    <div class="s-head">
+      <div class="kicker">Availability</div>
+      <h2>Office Status</h2>
+      <div class="s-note"><p>IST, Mon–Sat.</p></div>
     </div>
-
-    <div class="reveal-x-r" style="display:grid; gap:14px;">
-      <div class="hours-row">
-        <div>
-          <p style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--red-bright); margin-bottom:6px;">Weekdays</p>
-          <span class="day">Mon — Sat</span>
-        </div>
-        <div class="time"><b>10:00 AM</b><span>To 06:00 PM</span></div>
+    <div style="grid-column:1/7;">
+      <div class="status-row">
+        <span class="status-dot" id="statusDot"><span class="status-ping" id="statusPing"></span></span>
+        <span id="statusText" style="font-family:var(--serif); font-size:1.15rem;">Checking…</span>
       </div>
-      <div class="hours-row" style="opacity:0.6;">
-        <div>
-          <p style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-faint); margin-bottom:6px;">Weekend</p>
-          <span class="day">Sunday</span>
-        </div>
-        <div class="time"><b class="text-red">Closed</b></div>
-      </div>
+      <p style="margin-top:14px;">Current time <span id="currentTime" style="color:var(--ink); font-weight:600;">—</span> IST</p>
+    </div>
+    <div class="hours-list">
+      <div class="h-row"><span class="day">Mon — Sat</span><div class="time"><b>10:00 AM</b><span>To 06:00 PM</span></div></div>
+      <div class="h-row"><span class="day">Sunday</span><div class="time"><b class="text-red">Closed</b></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============================= FINAL CTA ============================= -->
-<section class="section-pad-sm">
-  <div class="wrap center">
-    <div class="eyebrow mx-auto reveal" style="justify-content:center;">Get Started Today</div>
-    <h2 class="reveal" style="margin-top:16px; max-width:16ch; margin-inline:auto;">Stop checking the tank. Start trusting AQUARUN.</h2>
-    <div class="cta-actions reveal" style="justify-content:center; margin-top:32px;">
-      <a href="#buy-now" class="btn btn-fill magnetic">Order AQUARUN</a>
-      <a href="https://wa.me/919037627335" class="btn btn-ghost magnetic">Talk to Us</a>
+<section class="s-sm">
+  <div class="grid">
+    <div class="cta-band reveal">
+      <div class="cta-band-copy">
+        <span class="kicker">Get Started</span>
+        <h3 style="margin-top:10px;">Stop checking the tank.</h3>
+      </div>
+      <div class="cta-band-act">
+        <a href="#buy-now" class="btn btn-fill">Order AQUARUN</a>
+        <a href="https://wa.me/919037627335" class="btn btn-line">Talk to Us</a>
+      </div>
     </div>
   </div>
 </section>
 
 </main>
 
-<!-- ============================= FOOTER ============================= -->
 <footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <img src="images/logo.png" alt="MSAFE Industries" width="130" height="34" loading="lazy">
-        <p>Engineering the flow of the future. Automatic water level control, built and tested in Kerala, India.</p>
-        <div class="footer-social">
-          <a href="https://www.instagram.com/msafeindustries/" aria-label="MSAFE on Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://wa.me/919037627335" aria-label="MSAFE on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.facebook.com/msafeindustries/" aria-label="MSAFE on Facebook"><i class="fab fa-facebook"></i></a>
-          <a href="tel:+919037627335" aria-label="Call MSAFE"><i class="fa-solid fa-phone"></i></a>
+  <div class="grid">
+    <div class="f-grid">
+      <div class="f-brand">
+        <img src="images/logo.png" alt="MSAFE Industries" width="120" height="26" loading="lazy">
+        <p>Automatic water level control, built and tested in Kerala, India.</p>
+        <div class="f-social">
+          <a href="https://www.instagram.com/msafeindustries/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/919037627335" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.facebook.com/msafeindustries/" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="tel:+919037627335" aria-label="Call"><i class="fa-solid fa-phone"></i></a>
         </div>
       </div>
-      <div class="footer-col">
-        <h5>Product</h5>
-        <a href="#features">Features</a>
-        <a href="#specifications">Specifications</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#gallery">Gallery</a>
-      </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <a href="#applications">Applications</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
-        <a href="#buy-now">Buy Now</a>
-      </div>
-      <div class="footer-col">
-        <h5>Contact</h5>
-        <a href="tel:+919037627335">+91 90376 27335</a>
-        <a href="https://wa.me/919037627335">WhatsApp</a>
-        <a href="https://maps.app.goo.gl/ryCFCHcGkyvpJKkx5">Kollam, Kerala</a>
-      </div>
+      <div class="f-col"><h5>Product</h5><a href="#features">Features</a><a href="#specifications">Specifications</a><a href="#how-it-works">How It Works</a><a href="#gallery">Gallery</a></div>
+      <div class="f-col"><h5>Company</h5><a href="#applications">Applications</a><a href="#faq">FAQ</a><a href="#contact">Contact</a><a href="#buy-now">Buy Now</a></div>
+      <div class="f-col"><h5>Contact</h5><a href="tel:+919037627335">+91 90376 27335</a><a href="https://wa.me/919037627335">WhatsApp</a><a href="https://maps.app.goo.gl/ryCFCHcGkyvpJKkx5">Kollam, Kerala</a></div>
     </div>
-
-    <div class="footer-bottom">
-      <p>&copy; <span id="year"></span> MSAFE Industries — AQUARUN. All rights reserved.</p>
-      <div class="dev-credit">
-        <a href="https://quadmedia-tvm.vercel.app/" target="_blank" rel="noopener">
-          <span class="pulse-dot"></span> Meet the Developers — <strong>QUADMEDIA.TVM</strong>
-        </a>
-      </div>
+    <div class="f-bottom">
+      <p>&copy; <span id="year"></span> MSAFE Industries — AQUARUN</p>
+      <div class="dev-credit"><a href="https://quadmedia-tvm.vercel.app/" target="_blank" rel="noopener"><span class="pulse-dot"></span> Meet the Developers — <strong>QUADMEDIA.TVM</strong></a></div>
     </div>
   </div>
 </footer>
@@ -1475,41 +1696,25 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
 <script>
 (function(){
   "use strict";
-
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* ============================================================
-     PRELOADER
-     ============================================================ */
   function hidePreloader(){
     var bar = document.getElementById('loader-bar');
     var pre = document.getElementById('preloader');
     if (!pre || pre.dataset.hidden) return;
     pre.dataset.hidden = 'true';
     if (bar) bar.style.width = '100%';
-    setTimeout(function(){
-      pre.classList.add('fade-out');
-      document.body.style.overflow = '';
-    }, 300);
+    setTimeout(function(){ pre.classList.add('fade-out'); document.body.style.overflow = ''; }, 250);
   }
   window.addEventListener('load', hidePreloader);
-  // Safety net: never let the preloader block the site for more than 3s,
-  // even if an image/font fails to load or 'load' never fires.
   setTimeout(hidePreloader, 3000);
   document.body.style.overflow = 'hidden';
   if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
 
-  /* ============================================================
-     NAV: scroll style + mobile menu
-     ============================================================ */
   var nav = document.getElementById('siteNav');
   var hamburger = document.getElementById('hamburger');
   var mobileMenu = document.getElementById('mobileMenu');
-
-  function onScrollNav(){
-    if (window.scrollY > 60) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-  }
+  function onScrollNav(){ if (window.scrollY > 40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
   onScrollNav();
   window.addEventListener('scroll', onScrollNav, { passive:true });
 
@@ -1521,69 +1726,29 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
   });
   mobileMenu.querySelectorAll('a').forEach(function(a){
     a.addEventListener('click', function(){
-      mobileMenu.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded','false');
-      document.body.style.overflow = '';
+      mobileMenu.classList.remove('open'); hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded','false'); document.body.style.overflow = '';
     });
   });
 
-  /* ============================================================
-     SCROLL PROGRESS BAR
-     ============================================================ */
   var progress = document.getElementById('scroll-progress');
-  function onScrollProgress(){
+  window.addEventListener('scroll', function(){
     var h = document.documentElement;
-    var scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
-    progress.style.width = scrolled + '%';
-  }
-  window.addEventListener('scroll', onScrollProgress, { passive:true });
+    progress.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  }, { passive:true });
 
-  /* ============================================================
-     BACK TO TOP
-     ============================================================ */
   var backToTop = document.getElementById('backToTop');
   window.addEventListener('scroll', function(){
-    if (window.scrollY > 800) backToTop.classList.add('show');
-    else backToTop.classList.remove('show');
+    if (window.scrollY > 800) backToTop.classList.add('show'); else backToTop.classList.remove('show');
   }, { passive:true });
-  backToTop.addEventListener('click', function(){
-    window.scrollTo({ top:0, behavior:'smooth' });
-  });
+  backToTop.addEventListener('click', function(){ window.scrollTo({ top:0, behavior:'smooth' }); });
 
-  /* ============================================================
-     HERO MOUSE GLOW (desktop only, respects reduced motion)
-     ============================================================ */
-  var glow = document.getElementById('heroGlow');
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (glow && !prefersReduced && window.matchMedia('(hover:hover)').matches) {
-    var heroSection = document.getElementById('home');
-    heroSection.addEventListener('mousemove', function(e){
-      var rect = heroSection.getBoundingClientRect();
-      var x = ((e.clientX - rect.left) / rect.width) * 100;
-      var y = ((e.clientY - rect.top) / rect.height) * 100;
-      glow.style.setProperty('--mx', x + '%');
-      glow.style.setProperty('--my', y + '%');
-    });
-  }
-
-  /* ============================================================
-     REVEAL ON SCROLL (IntersectionObserver)
-     ============================================================ */
-  var revealEls = document.querySelectorAll('.reveal, .reveal-x, .reveal-x-r, .reveal-scale');
+  var revealEls = document.querySelectorAll('.reveal, .reveal-x');
   var revealObserver = new IntersectionObserver(function(entries){
-    entries.forEach(function(entry){
-      if (entry.isIntersecting){
-        entry.target.classList.add('in');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold:0.12, rootMargin:'0px 0px -60px 0px' });
+    entries.forEach(function(entry){ if (entry.isIntersecting){ entry.target.classList.add('in'); revealObserver.unobserve(entry.target); } });
+  }, { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
   revealEls.forEach(function(el){ revealObserver.observe(el); });
 
-  /* ============================================================
-     ANIMATED COUNTERS
-     ============================================================ */
   var counters = document.querySelectorAll('.counter');
   var counterObserver = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -1591,17 +1756,14 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
       var el = entry.target;
       var target = parseFloat(el.getAttribute('data-target'));
       var decimals = parseInt(el.getAttribute('data-decimal') || '0', 10);
-      var duration = 1400;
-      var startTime = null;
-
+      var duration = 1200, startTime = null;
       function step(ts){
         if (!startTime) startTime = ts;
-        var progressT = Math.min((ts - startTime) / duration, 1);
-        var eased = 1 - Math.pow(1 - progressT, 3);
+        var t = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - t, 3);
         var val = target * eased;
         el.textContent = decimals ? val.toFixed(decimals) : Math.round(val);
-        if (progressT < 1) requestAnimationFrame(step);
-        else el.textContent = decimals ? target.toFixed(decimals) : target;
+        if (t < 1) requestAnimationFrame(step); else el.textContent = decimals ? target.toFixed(decimals) : target;
       }
       requestAnimationFrame(step);
       counterObserver.unobserve(el);
@@ -1609,144 +1771,48 @@ footer{ border-top:1px solid var(--line-soft); padding-block:70px 40px; }
   }, { threshold:0.5 });
   counters.forEach(function(c){ counterObserver.observe(c); });
 
-  /* ============================================================
-     TABS (How It Works)
-     ============================================================ */
   var tabBtns = document.querySelectorAll('.tab-btn');
   tabBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       var target = btn.getAttribute('data-tab');
-      tabBtns.forEach(function(b){
-        b.classList.remove('active');
-        b.setAttribute('aria-selected','false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected','true');
-
+      tabBtns.forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      btn.classList.add('active'); btn.setAttribute('aria-selected','true');
       document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
-      var panel = document.getElementById('tab-' + target);
-      panel.classList.add('active');
-      panel.querySelectorAll('.p-step').forEach(function(step, i){
-        step.classList.remove('in');
-        setTimeout(function(){ step.classList.add('in'); }, i * 90);
-      });
+      document.getElementById('tab-' + target).classList.add('active');
     });
   });
 
-  /* ============================================================
-     FAQ ACCORDION
-     ============================================================ */
   document.querySelectorAll('.faq-item').forEach(function(item){
-    var q = item.querySelector('.faq-q');
-    var a = item.querySelector('.faq-a');
+    var q = item.querySelector('.faq-q'), a = item.querySelector('.faq-a');
     q.addEventListener('click', function(){
       var isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(function(openItem){
-        if (openItem !== item){
-          openItem.classList.remove('open');
-          openItem.querySelector('.faq-q').setAttribute('aria-expanded','false');
-          openItem.querySelector('.faq-a').style.maxHeight = null;
-        }
+      document.querySelectorAll('.faq-item.open').forEach(function(o){
+        if (o !== item){ o.classList.remove('open'); o.querySelector('.faq-q').setAttribute('aria-expanded','false'); o.querySelector('.faq-a').style.maxHeight = null; }
       });
-      if (isOpen){
-        item.classList.remove('open');
-        q.setAttribute('aria-expanded','false');
-        a.style.maxHeight = null;
-      } else {
-        item.classList.add('open');
-        q.setAttribute('aria-expanded','true');
-        a.style.maxHeight = a.scrollHeight + 'px';
-      }
+      if (isOpen){ item.classList.remove('open'); q.setAttribute('aria-expanded','false'); a.style.maxHeight = null; }
+      else { item.classList.add('open'); q.setAttribute('aria-expanded','true'); a.style.maxHeight = a.scrollHeight + 'px'; }
     });
   });
 
-  /* ============================================================
-     TESTIMONIAL AUTO-SCROLL (gentle, pauses on hover/touch)
-     ============================================================ */
-  var track = document.getElementById('testiTrack');
-  if (track && !prefersReduced) {
-    var isHover = false;
-    track.addEventListener('mouseenter', function(){ isHover = true; });
-    track.addEventListener('mouseleave', function(){ isHover = false; });
-    var pos = 0;
-    function autoScroll(){
-      if (!isHover) {
-        pos += 0.4;
-        if (pos >= track.scrollWidth / 2) pos = 0;
-        track.style.transform = 'translateX(' + (-pos) + 'px)';
-      }
-      requestAnimationFrame(autoScroll);
-    }
-    requestAnimationFrame(autoScroll);
-  }
-
-  /* ============================================================
-     OFFICE STATUS CHECKER
-     ============================================================ */
   function updateStatus(){
-    var now = new Date();
-    var hours = now.getHours();
-    var day = now.getDay();
-    var statusText = document.getElementById('statusText');
-    var statusDot = document.getElementById('statusDot');
-    var ping = document.getElementById('statusPing');
-    var timeDisplay = document.getElementById('currentTime');
-
+    var now = new Date(), hours = now.getHours(), day = now.getDay();
+    var statusText = document.getElementById('statusText'), statusDot = document.getElementById('statusDot'), timeDisplay = document.getElementById('currentTime');
     if (!statusText) return;
-
     timeDisplay.textContent = now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
-
     var isOpen = (day >= 1 && day <= 6) && (hours >= 10 && hours < 18);
-
-    if (isOpen){
-      statusText.textContent = 'Shop is Open';
-      statusText.style.color = '#22c55e';
-      statusDot.className = 'status-dot status-open';
-      ping.className = 'status-ping status-open';
-      ping.style.display = 'block';
-    } else {
-      statusText.textContent = 'Shop is Closed';
-      statusText.style.color = '#ff2229';
-      statusDot.className = 'status-dot status-closed';
-      ping.style.display = 'none';
-    }
+    if (isOpen){ statusText.textContent = 'Shop is Open'; statusText.style.color = '#22c55e'; statusDot.className = 'status-dot status-open'; }
+    else { statusText.textContent = 'Shop is Closed'; statusText.style.color = '#ff262d'; statusDot.className = 'status-dot status-closed'; }
   }
   updateStatus();
   setInterval(updateStatus, 60000);
 
-  /* ============================================================
-     MAGNETIC BUTTONS (desktop only)
-     ============================================================ */
-  if (window.matchMedia('(hover:hover)').matches && !prefersReduced) {
-    document.querySelectorAll('.magnetic').forEach(function(btn){
-      btn.addEventListener('mousemove', function(e){
-        var rect = btn.getBoundingClientRect();
-        var x = e.clientX - rect.left - rect.width / 2;
-        var y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = 'translate(' + (x * 0.18) + 'px,' + (y * 0.3) + 'px)';
-      });
-      btn.addEventListener('mouseleave', function(){
-        btn.style.transform = 'translate(0,0)';
-      });
-    });
-  }
-
-  /* ============================================================
-     ANALYTICS: SECTION VIEW EVENTS (uses existing gtag)
-     ============================================================ */
   if (typeof gtag === 'function') {
     var trackedSections = document.querySelectorAll('main section[id]');
     var gaObserver = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting){
-          gtag('event', 'section_view', { section_id: entry.target.id });
-          gaObserver.unobserve(entry.target);
-        }
-      });
+      entries.forEach(function(entry){ if (entry.isIntersecting){ gtag('event', 'section_view', { section_id: entry.target.id }); gaObserver.unobserve(entry.target); } });
     }, { threshold:0.4 });
     trackedSections.forEach(function(s){ gaObserver.observe(s); });
   }
-
 })();
 </script>
 </body>
