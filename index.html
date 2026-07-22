@@ -276,6 +276,85 @@ img {
 .animate-aura {
     background: radial-gradient(circle, rgba(179,35,28,0.10) 0%, rgba(0,0,0,0) 70%);
 }
+
+/* ---------- Marquee ---------- */
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 28s linear infinite;
+}
+.marquee-track span {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 0 2.5rem;
+}
+@keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+
+/* ---------- WhatsApp Floating Button ---------- */
+.wa-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 60;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.wa-float:hover { transform: scale(1.08); }
+.wa-float i { font-size: 1.6rem; color: #0c0c0d; }
+.wa-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid #25D366;
+    animation: wa-pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes wa-pulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    100% { transform: scale(1.7); opacity: 0; }
+}
+@media (max-width: 640px) {
+    .wa-float { width: 50px; height: 50px; right: 14px; bottom: 14px; }
+    .wa-float i { font-size: 1.35rem; }
+}
+
+/* ---------- Extra motion: subtle icon lift + underline sweep already covered; add card tilt on hover for larger screens ---------- */
+@media (min-width: 768px) {
+    .spec-card:hover { transform: translateY(-6px); }
+}
+
+/* ---------- Mobile type & spacing refinement ---------- */
+@media (max-width: 640px) {
+    h1.font-display { font-size: 3.4rem !important; }
+    #home h1.font-display { line-height: 1 !important; }
+    section.py-32 { padding-top: 4.5rem !important; padding-bottom: 4.5rem !important; }
+    section.py-24 { padding-top: 3.5rem !important; padding-bottom: 3.5rem !important; }
+    .spec-card { padding: 1.75rem !important; }
+    .marquee-track { animation-duration: 16s; }
+    h3.font-display.text-5xl { font-size: 2.4rem !important; }
+    h2.font-display.text-5xl { font-size: 2.2rem !important; }
+}
+
+/* ---------- Extra ambient motion ---------- */
+.wa-float i { transition: transform 0.3s ease; }
+.wa-float:hover i { transform: scale(1.1) rotate(-6deg); }
+
+.buy-icon { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.spec-card:hover .buy-icon { transform: translateY(-4px) scale(1.08); }
+
+.logo-img { transition: opacity 0.3s ease, transform 0.3s ease; }
+.logo-img:hover { transform: scale(1.04); }
 </style>
 
 <script>
@@ -373,6 +452,13 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
 </div>
 <div class="custom-cursor"></div>
+
+    <!-- Floating WhatsApp Button (always visible) -->
+    <a href="https://wa.me/919037627335" target="_blank" aria-label="Chat on WhatsApp" class="wa-float">
+        <span class="wa-ring"></span>
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <!-- Navigation -->
     <nav class="glass-nav fixed w-full z-50 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -435,6 +521,27 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         </div>
     </section>
+
+    <!-- Marquee Strip -->
+    <div class="marquee-wrap overflow-hidden border-y" style="border-color: var(--hairline); background-color: #0a0a0b;">
+        <div class="marquee-track py-4 text-xs font-medium uppercase tracking-[0.3em] text-gray-500">
+            <span>AQUARUN <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>Voltage Management <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>DrySensing <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>Magnetic Float Technology <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>Zero-Overflow Guarantee <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>1 Year Full Warranty <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>48H Stress Tested <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <!-- duplicate for seamless loop -->
+            <span>AQUARUN <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>Voltage Management <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>DrySensing <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>Magnetic Float Technology <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>Zero-Overflow Guarantee <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>1 Year Full Warranty <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+            <span>48H Stress Tested <i class="fas fa-circle text-[4px] mx-4 align-middle" style="color: var(--msafe-red-bright);"></i></span>
+        </div>
+    </div>
 
     <!-- Features Section -->
     <section id="features" class="py-32" style="background-color: var(--panel-bg);">
@@ -561,7 +668,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             <div class="grid md:grid-cols-2 gap-px max-w-4xl mx-auto" style="background-color: var(--hairline);">
                 <div class="spec-card p-10 flex flex-col items-center text-center animate-on-scroll" style="background-color: var(--dark-bg);">
-                    <div class="w-16 h-16 mb-6 flex items-center justify-center rounded-full border" style="border-color: var(--hairline-bright); background: rgba(255,255,255,0.03);">
+                    <div class="buy-icon w-16 h-16 mb-6 flex items-center justify-center rounded-full border" style="border-color: var(--hairline-bright); background: rgba(255,255,255,0.03);">
                         <i class="fab fa-amazon text-2xl text-[#FF9900]"></i>
                     </div>
                     <h3 class="font-display text-2xl font-medium mb-2">Amazon</h3>
@@ -572,7 +679,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
 
                 <div class="spec-card p-10 flex flex-col items-center text-center animate-on-scroll" style="background-color: var(--dark-bg); transition-delay: 150ms">
-                    <div class="w-16 h-16 mb-6 flex items-center justify-center rounded-full border" style="border-color: var(--hairline-bright); background: rgba(255,255,255,0.03);">
+                    <div class="buy-icon w-16 h-16 mb-6 flex items-center justify-center rounded-full border" style="border-color: var(--hairline-bright); background: rgba(255,255,255,0.03);">
                         <img src="images\flipkart-icon.svg" class="w-8 h-8" alt="Flipkart">
                     </div>
                     <h3 class="font-display text-2xl font-medium mb-2">Flipkart</h3>
