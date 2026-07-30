@@ -861,7 +861,7 @@ img {
             border-radius: 16px;
             border: 1px solid var(--hairline-bright);
             background: var(--panel-bg);
-            padding: 14px 0;
+            padding: 20px 0;
             margin-bottom: 2.5rem;
             position: relative;
             -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -881,15 +881,16 @@ img {
             100% { transform: translateX(-50%); }
         }
         .gallery-marquee-card {
-            width: 240px;
-            height: 160px;
-            border-radius: 10px;
+            width: 150px;
+            height: 210px;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid var(--hairline);
+            border: 1px solid var(--hairline-bright);
             position: relative;
             cursor: pointer;
             flex-shrink: 0;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .gallery-marquee-card img {
             width: 100%;
@@ -899,7 +900,8 @@ img {
         }
         .gallery-marquee-card:hover {
             border-color: var(--msafe-red-bright);
-            transform: scale(1.03);
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(179, 35, 28, 0.25);
         }
         .gallery-marquee-card:hover img {
             transform: scale(1.1);
@@ -1091,19 +1093,7 @@ function updateStatus() {
     const minutes = now.getMinutes();
     const day = now.getDay();
 
-    const statusText = document.getElementById('status-text');
-    const statusSub = document.getElementById('status-sub');
-    const statusDot = document.getElementById('status-dot');
-    const ping = document.getElementById('ping-effect');
-    const glow = document.getElementById('glow-bg');
     const timeDisplay = document.getElementById('current-time');
-    const cardBorder = document.getElementById('status-card');
-    const ring = document.getElementById('progress-ring');
-    const fill = document.getElementById('hours-progress-fill');
-    const navText = document.getElementById('nav-status-text');
-    const navDot = document.getElementById('nav-status-dot');
-    const navPing = document.getElementById('nav-status-ping');
-
     if (timeDisplay) {
         timeDisplay.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' IST';
     }
@@ -1113,6 +1103,20 @@ function updateStatus() {
     const closeMins = 18 * 60;
     const nowMins = hours * 60 + minutes;
     const isOpen = isWeekday && nowMins >= openMins && nowMins < closeMins;
+    const isClosingSoon = isOpen && (closeMins - nowMins <= 45);
+
+    const statusText = document.getElementById('status-text');
+    const statusSub = document.getElementById('status-sub');
+    const statusDot = document.getElementById('status-dot');
+    const ping = document.getElementById('ping-effect');
+    const glow = document.getElementById('glow-bg');
+    const cardBorder = document.getElementById('status-card');
+    const ring = document.getElementById('progress-ring');
+    const fill = document.getElementById('hours-progress-fill');
+    const pctText = document.getElementById('hours-pct-text');
+    const navText = document.getElementById('nav-status-text');
+    const navDot = document.getElementById('nav-status-dot');
+    const navPing = document.getElementById('nav-status-ping');
 
     if (isOpen) {
         const elapsed = nowMins - openMins;
@@ -1120,23 +1124,37 @@ function updateStatus() {
         const pct = Math.min(1, Math.max(0, elapsed / total));
         const remaining = closeMins - nowMins;
 
-        if (statusText) {
-            statusText.innerText = "Shop is Open";
-            statusText.className = "text-2xl font-bold tracking-tight uppercase block text-emerald-400";
+        if (isClosingSoon) {
+            if (statusText) {
+                statusText.innerText = "Closing Soon";
+                statusText.className = "text-2xl font-bold tracking-tight uppercase block text-amber-400";
+            }
+            if (statusSub) statusSub.innerText = `Hurry! Closes in ${formatCountdown(remaining)}`;
+            if (statusDot) statusDot.className = "relative inline-flex rounded-full h-3.5 w-3.5 bg-amber-400";
+            if (ping) ping.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75";
+            if (glow) glow.style.backgroundColor = "rgba(245, 158, 11, 0.18)";
+            if (cardBorder) cardBorder.style.background = "linear-gradient(135deg, rgba(245, 158, 11, 0.5), transparent)";
+            if (ring) ring.style.stroke = "#F59E0B";
+            if (navText) { navText.innerText = "CLOSING SOON"; navText.className = "text-amber-400 font-bold"; }
+            if (navDot) navDot.className = "relative inline-flex rounded-full h-2 w-2 bg-amber-400";
+        } else {
+            if (statusText) {
+                statusText.innerText = "Shop is Open";
+                statusText.className = "text-2xl font-bold tracking-tight uppercase block text-emerald-400";
+            }
+            if (statusSub) statusSub.innerText = `Operational • Closes in ${formatCountdown(remaining)}`;
+            if (statusDot) statusDot.className = "relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500";
+            if (ping) ping.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60";
+            if (glow) glow.style.backgroundColor = "rgba(16, 185, 129, 0.16)";
+            if (cardBorder) cardBorder.style.background = "linear-gradient(135deg, rgba(16, 185, 129, 0.4), transparent)";
+            if (ring) ring.style.stroke = "#10B981";
+            if (navText) { navText.innerText = "SHOP OPEN"; navText.className = "text-emerald-400 font-bold"; }
+            if (navDot) navDot.className = "relative inline-flex rounded-full h-2 w-2 bg-emerald-500";
         }
-        if (statusSub) statusSub.innerText = `Operational • Closes in ${formatCountdown(remaining)}`;
-        if (statusDot) statusDot.className = "relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500";
-        if (ping) ping.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60";
-        if (glow) glow.style.backgroundColor = "rgba(16, 185, 129, 0.16)";
-        if (cardBorder) cardBorder.style.background = "linear-gradient(135deg, rgba(16, 185, 129, 0.4), transparent)";
-        if (ring) {
-            ring.style.stroke = "#10B981";
-            ring.style.strokeDashoffset = String(RING_CIRC * (1 - pct));
-        }
-        if (fill) fill.style.width = (pct * 100) + "%";
 
-        if (navText) { navText.innerText = "SHOP OPEN"; navText.className = "text-emerald-400 font-bold"; }
-        if (navDot) navDot.className = "relative inline-flex rounded-full h-2 w-2 bg-emerald-500";
+        if (ring) ring.style.strokeDashoffset = String(RING_CIRC * (1 - pct));
+        if (fill) fill.style.width = (pct * 100) + "%";
+        if (pctText) pctText.innerText = `${Math.round(pct * 100)}% Shift Passed`;
         if (navPing) navPing.className = "animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75";
     } else {
         let daysAhead = 0;
@@ -1166,6 +1184,7 @@ function updateStatus() {
             ring.style.strokeDashoffset = String(RING_CIRC);
         }
         if (fill) fill.style.width = "0%";
+        if (pctText) pctText.innerText = `Off-Hours`;
 
         if (navText) { navText.innerText = "SHOP CLOSED"; navText.className = "text-red-400 font-bold"; }
         if (navDot) navDot.className = "relative inline-flex rounded-full h-2 w-2 bg-red-500";
@@ -1325,6 +1344,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
 
                 <a href="#buy-now" data-section="buy-now" class="btn-primary hidden md:inline-flex px-6 py-2.5 font-bold text-[11px] uppercase tracking-widest">Buy Now</a>
+
+                <!-- Live Shop Status Pill -->
+                <a href="#hours" class="live-status-pill hidden md:inline-flex" title="Shop Status">
+                    <span class="relative flex h-2 w-2">
+                        <span id="nav-status-ping" class="hidden"></span>
+                        <span id="nav-status-dot" class="relative inline-flex rounded-full h-2 w-2 bg-gray-500"></span>
+                    </span>
+                    <span id="nav-status-text" class="text-gray-400 font-bold" style="font-size:9px;">LOADING</span>
+                </a>
 
                 <!-- Mobile Hamburger -->
                 <button id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" class="md:hidden relative w-9 h-9 flex flex-col items-center justify-center gap-[5px] z-50">
@@ -1545,25 +1573,82 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="w-16 h-px mx-auto mt-6" style="background-color: var(--msafe-red);"></div>
             </div>
 
+            <!-- Featured Horizontal Hero Image -->
             <div class="flex justify-center mb-10 animate-on-scroll">
-                <img src="images/ai.png" class="photo-hero-img" alt="Detail View" onerror="this.style.display='none'">
+                <img src="images/ai.png" class="photo-hero-img cursor-pointer" alt="AQUARUN Main System" onclick="openLightbox(0)" onerror="this.style.display='none'">
             </div>
 
-            <div class="photo-grid animate-on-scroll">
-                <div class="photo-tile"><img src="images/postt.jpg" alt="AQUARUN installation photo 1" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/post.jpg" alt="AQUARUN installation photo 2" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/1.png" alt="AQUARUN product photo 1" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/2.png" alt="AQUARUN product photo 2" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/3.png" alt="AQUARUN product photo 3" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/6.jpg" alt="AQUARUN product photo 4" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/9.png" alt="AQUARUN product photo 5" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/11.jpg" alt="AQUARUN product photo 6" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/14.jpg" alt="AQUARUN product photo 7" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/e.jpg" alt="AQUARUN product photo 8" loading="lazy"></div>
-                <div class="photo-tile"><img src="images/ORANGE.png" alt="AQUARUN product photo 9" loading="lazy"></div>
+            <!-- Scrolling Image Marquee -->
+            <div class="gallery-marquee-wrap animate-on-scroll">
+                <div class="gallery-marquee-track">
+                    <div class="gallery-marquee-card" onclick="openLightbox(1)"><img src="images/post.jpg" alt="Control Panel Unit" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(2)"><img src="images/1.png" alt="AQUARUN Front View" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(3)"><img src="images/3.png" alt="Magnetic Sensor Probe" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(4)"><img src="images/6.jpg" alt="Relay Wiring Setup" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(5)"><img src="images/14.jpg" alt="Wall Mounted Unit" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(6)"><img src="images/ORANGE.png" alt="AQUARUN Special Edition" loading="lazy"></div>
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="gallery-marquee-card" onclick="openLightbox(1)"><img src="images/post.jpg" alt="Control Panel Unit" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(2)"><img src="images/1.png" alt="AQUARUN Front View" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(3)"><img src="images/3.png" alt="Magnetic Sensor Probe" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(4)"><img src="images/6.jpg" alt="Relay Wiring Setup" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(5)"><img src="images/14.jpg" alt="Wall Mounted Unit" loading="lazy"></div>
+                    <div class="gallery-marquee-card" onclick="openLightbox(6)"><img src="images/ORANGE.png" alt="AQUARUN Special Edition" loading="lazy"></div>
+                </div>
+            </div>
+
+            <!-- Still Compact Vertical Image Grid -->
+            <div class="compact-gallery-grid animate-on-scroll">
+                <div class="compact-vertical-frame" onclick="openLightbox(7)">
+                    <img src="images/postt.jpg" alt="Vertical Panel System" loading="lazy">
+                    <span class="compact-frame-badge"><i class="fas fa-expand"></i></span>
+                </div>
+                <div class="compact-vertical-frame" onclick="openLightbox(8)">
+                    <img src="images/2.png" alt="Side Profile" loading="lazy">
+                    <span class="compact-frame-badge"><i class="fas fa-expand"></i></span>
+                </div>
+                <div class="compact-vertical-frame" onclick="openLightbox(9)">
+                    <img src="images/9.png" alt="Sensor Component" loading="lazy">
+                    <span class="compact-frame-badge"><i class="fas fa-expand"></i></span>
+                </div>
+                <div class="compact-vertical-frame" onclick="openLightbox(10)">
+                    <img src="images/11.jpg" alt="Heavy Duty Unit" loading="lazy">
+                    <span class="compact-frame-badge"><i class="fas fa-expand"></i></span>
+                </div>
+                <div class="compact-vertical-frame" onclick="openLightbox(11)">
+                    <img src="images/e.jpg" alt="Terminal Architecture" loading="lazy">
+                    <span class="compact-frame-badge"><i class="fas fa-expand"></i></span>
+                </div>
+                <div class="compact-vertical-frame" onclick="openLightbox(12)">
+                    <img src="images/posttt.png" alt="Compact Display Panel" loading="lazy">
+                    <span class="compact-frame-badge"><i class="fas fa-expand"></i></span>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="hidden fixed inset-0 z-[99] flex items-center justify-center" style="background: rgba(0,0,0,0.92); backdrop-filter: blur(20px);">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 w-12 h-12 rounded-full flex items-center justify-center text-white/70 hover:text-white transition" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);" aria-label="Close">
+            <i class="fas fa-times text-lg"></i>
+        </button>
+        <button onclick="prevLightbox()" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white/70 hover:text-white transition" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);" aria-label="Previous">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button onclick="nextLightbox()" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white/70 hover:text-white transition" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);" aria-label="Next">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="flex flex-col items-center max-w-4xl w-full px-16 md:px-20">
+            <img id="lightbox-img" src="" alt="Gallery Image" class="max-h-[75vh] max-w-full object-contain rounded-lg" style="transition: opacity 0.35s ease, transform 0.35s ease;">
+            <div class="mt-5 text-center">
+                <p id="lightbox-title" class="font-display text-xl font-bold text-white"></p>
+                <p id="lightbox-caption" class="text-sm text-gray-400 mt-1 font-semibold"></p>
+                <p id="lightbox-counter" class="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-600 mt-3"></p>
+            </div>
+        </div>
+        <div onclick="closeLightbox()" class="absolute inset-0 -z-10"></div>
+    </div>
+
 
     <!-- Order Now -->
     <section id="buy-now" class="py-32" style="background-color: var(--panel-bg);">
@@ -1632,6 +1717,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <!-- Contact Section -->
     <section id="contact" class="py-24 text-white overflow-hidden relative" style="background-color: #0a0a0b;">
         <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full blur-[120px] pointer-events-none" style="background: rgba(179,35,28,0.08);"></div>
+        <div class="absolute -bottom-32 -left-32 w-80 h-80 rounded-full blur-[140px] pointer-events-none" style="background: rgba(37,211,102,0.05);"></div>
 
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-12 gap-16 items-center">
@@ -1643,34 +1729,72 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                        <a href="tel:+919037627335" class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1" style="background-color: var(--panel-bg); border-color: var(--hairline);">
+                        <!-- Phone Card with Signal Waves -->
+                        <a href="tel:+919037627335" class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1 rounded-xl" style="background-color: var(--panel-bg); border-color: var(--hairline);">
                             <div class="flex flex-col h-full">
-                                <div class="contact-icon mb-10"><i class="fa-solid fa-phone text-gray-400 group-hover:text-white transition-colors"></i></div>
+                                <div class="contact-icon mb-6 relative">
+                                    <span class="contact-signal-wave"></span>
+                                    <span class="contact-signal-wave contact-signal-wave-2"></span>
+                                    <i class="fa-solid fa-phone text-gray-400 group-hover:text-white transition-colors"></i>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="live-status-pill" style="padding: 2px 8px; font-size: 8px;">
+                                        <span class="live-dot-green" style="width:5px;height:5px;"></span>
+                                        LINE OPEN
+                                    </span>
+                                </div>
                                 <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Call Center</p>
                                 <p class="font-display text-xl font-bold">+91 90376 27335</p>
                             </div>
                         </a>
 
-                        <a href="https://wa.me/919037627335" target="_blank" rel="noopener noreferrer" class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1 text-left w-full" style="background-color: var(--panel-bg); border-color: var(--hairline);">
+                        <!-- WhatsApp Card with Signal Waves -->
+                        <a href="https://wa.me/919037627335" target="_blank" rel="noopener noreferrer" class="contact-card-wa reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1 text-left w-full rounded-xl" style="background-color: var(--panel-bg); border-color: var(--hairline);">
                             <div class="flex flex-col h-full">
-                                <div class="contact-icon mb-10"><i class="fab fa-whatsapp text-gray-400 group-hover:text-[#25D366] transition-colors"></i></div>
+                                <div class="contact-icon mb-6 relative">
+                                    <span class="contact-signal-wave"></span>
+                                    <span class="contact-signal-wave contact-signal-wave-2"></span>
+                                    <i class="fab fa-whatsapp text-gray-400 group-hover:text-[#25D366] transition-colors"></i>
+                                </div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="live-status-pill" style="padding: 2px 8px; font-size: 8px; border-color: rgba(37,211,102,0.3);">
+                                        <span class="live-dot-green" style="width:5px;height:5px;"></span>
+                                        INSTANT REPLY
+                                    </span>
+                                </div>
                                 <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Direct Message</p>
                                 <p class="font-display text-xl font-bold">Chat on WhatsApp</p>
                             </div>
                         </a>
 
-                        <a href="https://www.instagram.com/msafeindustries/" class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1" style="background-color: var(--panel-bg); border-color: var(--hairline);">
+                        <!-- Instagram Card with Signal Waves -->
+                        <a href="https://www.instagram.com/msafeindustries/" class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1 rounded-xl" style="background-color: var(--panel-bg); border-color: var(--hairline);">
                             <div class="flex flex-col h-full">
-                                <div class="contact-icon mb-10"><i class="fab fa-instagram text-gray-400 group-hover:text-white transition-colors"></i></div>
-                                <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Follow Us</p>
+                                <div class="contact-icon mb-6 relative">
+                                    <span class="contact-signal-wave"></span>
+                                    <span class="contact-signal-wave contact-signal-wave-2"></span>
+                                    <i class="fab fa-instagram text-gray-400 group-hover:text-white transition-colors"></i>
+                                </div>
+                                <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Follow Us</p>
                                 <p class="font-display text-xl font-bold">@msafeindustries</p>
                             </div>
                         </a>
 
-                        <div class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1" style="background-color: var(--panel-bg); border-color: var(--hairline);">
+                        <!-- Location Card with Signal Waves -->
+                        <div class="reveal-card opacity-0 group p-8 border transition-all duration-500 hover:-translate-y-1 rounded-xl" style="background-color: var(--panel-bg); border-color: var(--hairline);">
                             <a href="https://www.google.com/maps/place/MOOKAMBIKA+AGENCIES+%7C+MSAFE+INDUSTRIES/@8.5667909,76.8988808,12z/data=!4m8!3m7!1s0x3b05b90d2f29cdd5:0x2f20ac9c570859a9!8m2!3d8.5575633!4d76.9244319!9m1!1b1!16s%2Fg%2F11ptspknzt?entry=ttu&g_ep=EgoyMDI2MDcxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer">
                                 <div class="flex flex-col h-full">
-                                    <div class="contact-icon mb-10"><i class="fas fa-map-marker-alt text-gray-400 group-hover:text-white transition-colors"></i></div>
+                                    <div class="contact-icon mb-6 relative">
+                                        <span class="contact-signal-wave"></span>
+                                        <span class="contact-signal-wave contact-signal-wave-2"></span>
+                                        <i class="fas fa-map-marker-alt text-gray-400 group-hover:text-white transition-colors"></i>
+                                    </div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="live-status-pill" style="padding: 2px 8px; font-size: 8px;">
+                                            <span class="live-dot-red" style="width:5px;height:5px;"></span>
+                                            HQ ACTIVE
+                                        </span>
+                                    </div>
                                     <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Headquarters</p>
                                     <p class="font-display text-xl font-bold">Kerala, India</p>
                                 </div>
@@ -1689,52 +1813,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
             </div>
 
-            <div class="mt-16 max-w-2xl mx-auto reveal-card opacity-0 rounded-2xl border p-6 md:p-8" style="background-color: var(--panel-bg); border-color: var(--hairline-bright);">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20">
-                        <i class="fab fa-whatsapp text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-display text-2xl font-bold text-white">WhatsApp Enquiry</h3>
-                        <p class="text-xs font-semibold text-gray-400">Fill this in, then send it straight to us on WhatsApp</p>
+            <!-- WhatsApp Enquiry Form with Aura Border -->
+            <div class="mt-16 max-w-2xl mx-auto reveal-card opacity-0">
+                <div class="form-aura-wrapper">
+                    <div class="rounded-[1.4rem] p-6 md:p-8" style="background-color: var(--panel-bg);">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 relative">
+                                <span class="contact-signal-wave" style="border-color: rgba(37,211,102,0.4);"></span>
+                                <i class="fab fa-whatsapp text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display text-2xl font-bold text-white">WhatsApp Enquiry</h3>
+                                <p class="text-xs font-semibold text-gray-400">Fill this in, then send it straight to us on WhatsApp</p>
+                            </div>
+                        </div>
+
+                        <form id="wa-contact-form" onsubmit="sendWaMessage(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Your Name *</label>
+                                <input type="text" id="wa-name" required placeholder="MSAFE" class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Phone Number</label>
+                                <input type="tel" id="wa-phone" placeholder="+91 90376 27335" class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Requirement / Product Interest</label>
+                                <select id="wa-subject" class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);">
+                                    <option value="AQUARUN Water Controller Inquiry">AQUARUN Water Controller Inquiry</option>
+                                    <option value="Bulk / Commercial Order">Bulk / Commercial Order</option>
+                                    <option value="Technical Support &amp; Service">Technical Support &amp; Service</option>
+                                    <option value="General Question">General Question</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Your Message *</label>
+                                <textarea id="wa-message" rows="3" required placeholder="Hi, I would like to know more about..." class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 mt-2 font-bold text-xs uppercase tracking-widest text-black rounded-lg transition flex items-center justify-center gap-2" style="background-color: #25D366;">
+                                <i class="fab fa-whatsapp text-lg"></i> Send via WhatsApp
+                            </button>
+                        </form>
                     </div>
                 </div>
-
-                <form id="wa-contact-form" onsubmit="sendWaMessage(event)" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Your Name *</label>
-                        <input type="text" id="wa-name" required placeholder="John Doe" class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Phone Number</label>
-                        <input type="tel" id="wa-phone" placeholder="+91 98765 43210" class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Requirement / Product Interest</label>
-                        <select id="wa-subject" class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);">
-                            <option value="AQUARUN Water Controller Inquiry">AQUARUN Water Controller Inquiry</option>
-                            <option value="Bulk / Commercial Order">Bulk / Commercial Order</option>
-                            <option value="Technical Support & Service">Technical Support & Service</option>
-                            <option value="General Question">General Question</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Your Message *</label>
-                        <textarea id="wa-message" rows="3" required placeholder="Hi, I would like to know more about..." class="w-full px-4 py-3 rounded-lg text-sm text-white focus:outline-none focus:border-[#25D366] transition border" style="background-color: var(--dark-bg); border-color: var(--hairline-bright);"></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full py-4 mt-2 font-bold text-xs uppercase tracking-widest text-black rounded-lg transition flex items-center justify-center gap-2" style="background-color: #25D366;">
-                        <i class="fab fa-whatsapp text-lg"></i> Send via WhatsApp
-                    </button>
-                </form>
             </div>
         </div>
 
-        <div class="reveal-card opacity-0 sm:col-span-2 group p-2 border overflow-hidden mt-6 max-w-7xl mx-auto" style="background-color: var(--panel-bg); border-color: var(--hairline);">
-            <a href="https://www.google.com/maps/place/MOOKAMBIKA+AGENCIES+%7C+MSAFE+INDUSTRIES/@8.5667909,76.8988808,12z/data=!4m8!3m7!1s0x3b05b90d2f29cdd5:0x2f20ac9c570859a9!8m2!3d8.5575633!4d76.9244319!9m1!1b1!16s%2Fg%2F11ptspknzt?entry=ttu&g_ep=EgoyMDI2MDcxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="relative h-64 w-full overflow-hidden block map-preview-link" aria-label="Open MSAFE Industries location in Google Maps">
+        <!-- Map with Beacon -->
+        <div class="reveal-card opacity-0 sm:col-span-2 group p-2 border overflow-hidden mt-6 max-w-7xl mx-auto rounded-xl relative" style="background-color: var(--panel-bg); border-color: var(--hairline);">
+            <!-- Pulsing Map Beacon -->
+            <div class="map-pin-beacon">
+                <span class="map-beacon-pulse-ring"></span>
+                <span class="text-[9px] font-bold uppercase tracking-[0.15em] text-gray-300">MSAFE HQ — LIVE</span>
+            </div>
+            <a href="https://www.google.com/maps/place/MOOKAMBIKA+AGENCIES+%7C+MSAFE+INDUSTRIES/@8.5667909,76.8988808,12z/data=!4m8!3m7!1s0x3b05b90d2f29cdd5:0x2f20ac9c570859a9!8m2!3d8.5575633!4d76.9244319!9m1!1b1!16s%2Fg%2F11ptspknzt?entry=ttu&g_ep=EgoyMDI2MDcxOS4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="relative h-64 w-full overflow-hidden block map-preview-link rounded-lg" aria-label="Open MSAFE Industries location in Google Maps">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125287.0!2d76.9366!3d8.5241!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b05bbf3d5333333%3A0x3078557462f66c8b!2sThiruvananthapuram%2C%20Kerala!5e0!3m2!1sen!2sin!4v1715000000000"
                     class="w-full h-full grayscale contrast-125"
@@ -1742,7 +1878,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </iframe>
 
                 <div class="absolute bottom-6 right-6">
-                    <span class="btn-primary px-6 py-3 font-bold text-[10px] uppercase tracking-widest flex items-center gap-2">
+                    <span class="btn-primary px-6 py-3 font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 rounded-lg">
                         <i class="fas fa-location-arrow"></i>
                         Open in Maps
                     </span>
@@ -1819,7 +1955,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     <p class="review-text">Good products and excellent service.</p>
-                    <p class="review-time">3 years ago</p>
+                    <p class="review-time">2 years ago</p>
                 </div>
 
                 <div class="review-card">
@@ -1831,9 +1967,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                     <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    <p class="review-text">&nbsp;</p>
                     <p class="review-text">Genuine products with professional service.</p>
-                    <p class="review-time">3 years ago</p>
+                    <p class="review-time">2 years ago</p>
                 </div>
             </div>
 
@@ -1896,24 +2031,38 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3 class="font-display text-5xl md:text-6xl font-bold mb-8">Office <br>Status</h3>
 
                     <div id="status-card" class="status-tilt relative inline-block p-px transition-all duration-1000 w-full max-w-md">
-                        <div class="rounded-[2rem] px-8 py-7 flex items-center gap-6 border relative overflow-hidden" style="background-color: var(--panel-bg); border-color: var(--hairline-bright);">
+                        <div class="rounded-[2rem] px-8 py-7 flex flex-col gap-6 border relative overflow-hidden" style="background-color: var(--panel-bg); border-color: var(--hairline-bright);">
                             <div class="absolute inset-0 opacity-0 transition-opacity duration-700" id="status-sheen" style="background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%);"></div>
 
-                            <div class="relative flex items-center justify-center shrink-0" style="width:52px;height:52px;">
-                                <svg width="52" height="52" viewBox="0 0 52 52" class="absolute inset-0 -rotate-90">
-                                    <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"></circle>
-                                    <circle id="progress-ring" cx="26" cy="26" r="22" fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2" style="transition: stroke-dashoffset 1s ease, stroke 0.6s ease;"></circle>
-                                </svg>
-                                <div class="relative flex h-3.5 w-3.5">
-                                    <span id="ping-effect" class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
-                                    <span id="status-dot" class="relative inline-flex rounded-full h-3.5 w-3.5"></span>
+                            <div class="flex items-center gap-6">
+                                <div class="relative flex items-center justify-center shrink-0" style="width:56px;height:56px;">
+                                    <span class="radar-pulse-ring"></span>
+                                    <span class="radar-pulse-ring radar-pulse-ring-2"></span>
+                                    <svg width="56" height="56" viewBox="0 0 52 52" class="absolute inset-0 -rotate-90">
+                                        <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"></circle>
+                                        <circle id="progress-ring" cx="26" cy="26" r="22" fill="none" stroke-width="3" stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2" style="transition: stroke-dashoffset 1s ease, stroke 0.6s ease;"></circle>
+                                    </svg>
+                                    <div class="relative flex h-4 w-4">
+                                        <span id="ping-effect" class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
+                                        <span id="status-dot" class="relative inline-flex rounded-full h-4 w-4"></span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span id="status-text" class="text-2xl font-bold tracking-tight uppercase block">Loading...</span>
+                                    <p id="status-sub" class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Live Shop Telemetry</p>
                                 </div>
                             </div>
 
-                            <div>
-                                <span id="status-text" class="text-2xl font-bold tracking-tight uppercase block">Loading...</span>
-                                <p id="status-sub" class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Live Shop Checker</p>
-                            </div>
+                            <!-- Dedicated CTA Action Links -->
+                           <div class="flex flex-col gap-3 pt-4 border-t" style="border-color: var(--hairline);">
+                            <a href="#buy-now" class="btn-primary w-full py-3.5 px-6 font-bold text-xs uppercase tracking-widest text-center flex items-center justify-center gap-2 rounded-xl">
+                            <i class="fas fa-cart-shopping"></i> Order Online Now
+                            </a>
+                            <a href="https://wa.me/919037627335" class="btn-primary w-full py-3.5 px-6 font-bold text-xs uppercase tracking-widest text-center flex items-center justify-center gap-2 rounded-xl">
+                            <i class="fas fa-cart-shopping"></i> CONTACT SUPPORT HUB
+                            </a>
+                           </div>
                         </div>
                     </div>
 
